@@ -1,0 +1,3 @@
+source/battery-monitor /usr/share/
+battery-monitor /usr/bin/
+battery-monitor.conf /etc/init/
