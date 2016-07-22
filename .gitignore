@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+/battery-monitor/debian/battery-monitor/
+/battery-monitor/debian/battery-monitor.substvars
+/battery-monitor/debian/debhelper-build-stamp
+/battery-monitor/debian/files
