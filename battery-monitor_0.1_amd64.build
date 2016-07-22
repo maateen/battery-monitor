@@ -1,0 +1,67 @@
+ dpkg-buildpackage -rfakeroot -D -us -uc
+dpkg-buildpackage: source package battery-monitor
+dpkg-buildpackage: source version 0.1
+dpkg-buildpackage: source distribution unstable
+dpkg-buildpackage: source changed by Maksudur Rahman Maateen <maateen@outlook.com>
+ dpkg-source --before-build battery-monitor
+dpkg-buildpackage: host architecture amd64
+ fakeroot debian/rules clean
+dh clean --with python3
+   dh_testdir
+   dh_auto_clean
+   dh_clean
+ dpkg-source -b battery-monitor
+dpkg-source: warning: no source format specified in debian/source/format, see dpkg-source(1)
+dpkg-source: warning: source directory 'battery-monitor' is not <sourcepackage>-<upstreamversion> 'battery-monitor-0.1'
+dpkg-source: info: using source format '1.0'
+dpkg-source: info: building battery-monitor in battery-monitor_0.1.tar.gz
+dpkg-source: info: building battery-monitor in battery-monitor_0.1.dsc
+ debian/rules build
+dh build --with python3
+   dh_testdir
+   dh_update_autotools_config
+   dh_auto_configure
+   dh_auto_build
+   dh_auto_test
+ fakeroot debian/rules binary
+dh binary --with python3
+   dh_testroot
+   dh_prep
+   dh_auto_install
+   dh_install
+   dh_installdocs
+   dh_installchangelogs
+   dh_python3
+   dh_perl
+   dh_link
+   dh_strip_nondeterminism
+   dh_compress
+   dh_fixperms
+   dh_installdeb
+   dh_gencontrol
+   dh_md5sums
+   dh_builddeb
+dpkg-deb: building package 'battery-monitor' in '../battery-monitor_0.1_all.deb'.
+ dpkg-genchanges  >../battery-monitor_0.1_amd64.changes
+dpkg-genchanges: including full source code in upload
+ dpkg-source --after-build battery-monitor
+dpkg-buildpackage: full upload; Debian-native package (full source is included)
+Now running lintian...
+E: battery-monitor changes: bad-distribution-in-changes-file unstable
+W: battery-monitor source: diff-contains-git-control-dir .git
+W: battery-monitor source: debhelper-but-no-misc-depends battery-monitor
+E: battery-monitor source: missing-build-dependency-for-dh-addon python3 => python3 | python3-all | python3-dev | python3-all-dev
+W: battery-monitor source: package-needs-versioned-debhelper-build-depends 9
+E: battery-monitor source: invalid-standards-version 0.1
+W: battery-monitor: wrong-bug-number-in-closes l3:#XXXXXX
+W: battery-monitor: description-too-long
+E: battery-monitor: extended-description-is-empty
+W: battery-monitor: unknown-section extras
+E: battery-monitor: subdir-in-usr-bin usr/bin/battery-monitor/
+W: battery-monitor: extra-license-file usr/share/battery-monitor/battery-monitor/LICENSE
+Finished running lintian.
+Now signing changes and any dsc files...
+ signfile battery-monitor_0.1.dsc Maksudur Rahman Maateen <maateen@outlook.com>
+gpg: skipped "Maksudur Rahman Maateen <maateen@outlook.com>": secret key not available
+gpg: /tmp/debsign.xRAENfco/battery-monitor_0.1.dsc: clearsign failed: secret key not available
+debsign: gpg error occurred!  Aborting....

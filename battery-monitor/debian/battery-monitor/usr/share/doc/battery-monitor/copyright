@@ -1,0 +1,7 @@
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+Name: battery-monitor
+Maintainer: Maksudur Rahman Maateen <maateen@outlook.com>
+Source: https://github.com/maateen/battery-monitor
+
+Copyright: 2016 Maksudur Rahman Maateen <maateen@outlook.com>
+License: GPL-3
