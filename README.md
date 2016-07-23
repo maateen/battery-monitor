@@ -1,5 +1,5 @@
 # Battery Monitor
-Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify user about charging, discharging and not charging state of the battery on Linux (Surely if battery is present). 
+Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify user about charging, discharging, not charging and critically low battery state of the battery on Linux (Surely if battery is present). 
 ##Dependencies
 * python3
 * python3-gi
@@ -10,20 +10,16 @@ To use **Battery Monitor** you need these dependencies installed on your PC.
 ##Installation
 ###Ubuntu/Debian
 
- - At first, we will install all dependencies. Let's play the command:
+Let's install from PPA:
 
 ```
-sudo apt-get install python3 python3-gi libnotify-dev acpi -y
+sudo add-apt-repository ppa:maateen/battery-monitor -y
 ```
-
- - Now we will download the latest version of **Battery Monitor** from GitHub.
-
 ```
-wget https://github.com/maateen/battery-monitor/releases/download/v0.1/battery-monitor_0.1_all.deb
+sudo apt-get update
 ```
-- Let's install it with `dpkg` (hope you already got it):
 ```
-sudo dpkg -i battery-monitor_0.1_all.deb
+sudo apt-get install battery-monitor -y
 ```
 That's all. **Battery Monitor** is installed on your system. 
 ##Configuration
@@ -39,3 +35,5 @@ If you find a bug, please open a new issue with details: [https://github.com/maa
 ![Discharging State](https://s20.postimg.org/afxtvjpt9/Screenshot_from_2016_07_22_20_42_42.png)
 ####Not Charging State
 ![Not Charging State](https://s20.postimg.org/aihpidtgt/Screenshot_from_2016_07_22_21_11_49.png)
+####Critically Low Battery State
+![Critically Low Battery State](https://s20.postimg.org/ncfrbq6wd/Screenshot_from_2016_07_23_03_09_54.png)
