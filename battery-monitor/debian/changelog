@@ -1,16 +1,16 @@
-battery-monitor (0.2.1-trusty) trusty; urgency=medium
+battery-monitor (0.2.1-trusty1) trusty; urgency=medium
 
   * Adding low battery warning
 
  -- Maksudur Rahman Maateen <maateen@outlook.com>  Sat, 23 Jul 2016 05:27:12 +0600
 
-battery-monitor (0.2.1) xenial; urgency=medium
+battery-monitor (0.2.1-xenial) xenial; urgency=medium
 
   * Adding low battery warning
 
  -- Maksudur Rahman Maateen <maateen@outlook.com>  Sat, 23 Jul 2016 01:37:13 +0600
 
-battery-monitor (0.1) xenial; urgency=medium
+battery-monitor (0.1-xenial) xenial; urgency=medium
 
   * Initial release. (Closes: #XXXXXX)
   * 
