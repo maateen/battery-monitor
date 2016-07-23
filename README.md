@@ -10,20 +10,16 @@ To use **Battery Monitor** you need these dependencies installed on your PC.
 ##Installation
 ###Ubuntu/Debian
 
- - At first, we will install all dependencies. Let's play the command:
+Let's install from PPA:
 
 ```
-sudo apt-get install python3 python3-gi libnotify-dev acpi -y
+sudo add-apt-repository ppa:maateen/battery-monitor -y
 ```
-
- - Now we will download the latest version of **Battery Monitor** from GitHub.
-
 ```
-wget https://github.com/maateen/battery-monitor/releases/download/v0.2/battery-monitor_0.2_all.deb
+sudo apt-get update
 ```
-- Let's install it with `dpkg` (hope you already got it):
 ```
-sudo dpkg -i battery-monitor_0.2_all.deb
+sudo apt-get install battery-monitor -y
 ```
 That's all. **Battery Monitor** is installed on your system. 
 ##Configuration
