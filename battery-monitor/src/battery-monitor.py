@@ -68,9 +68,9 @@ try:
     if 'Battery' in output:
         Notify.init("Battery Monitor")
         notifier = Notify.Notification.new('Battery Monitor',
-                                           'Congrats! Battery '
-                                           'is '
-                                           'present.', icon_path +
+                                           'Congrats! Started '
+                                           'to '
+                                           'monitor just now.', icon_path +
                                            "/icon.png")
         notifier.set_urgency(Notify.Urgency.CRITICAL)
         notifier.show()
@@ -78,7 +78,7 @@ try:
         Notify.init("Battery Monitor")
         notifier = Notify.Notification.new('Battery Monitor',
                                            'Battery is not yet '
-                                           'plugged in!.', icon_path +
+                                           'present!', icon_path +
                                            "/icon.png")
         notifier.set_urgency(Notify.Urgency.CRITICAL)
         notifier.show()
@@ -115,6 +115,20 @@ try:
                                     icon=icon_path +
                                          '/low-battery.png')
                     os.system('play ' + path + '/sound.wav &')
+                    notifier.show()
+                    notifier.close()
+                    previous_battery_percentage = current_battery_percentage
+                # Temporary solution to issue 4
+                # Will make a GUI for this
+                elif current_battery_percentage == 30 and \
+                                current_battery_percentage is not \
+                                previous_battery_percentage:
+                    message = 'Now ' + battery_percentage + '%, ' \
+                                                             '' + \
+                              remaining_time + ' ' + 'remaining!'
+                    notifier.update('Low Battery', message,
+                                    icon=icon_path +
+                                         '/low-battery.png')
                     notifier.show()
                     notifier.close()
                     previous_battery_percentage = current_battery_percentage
