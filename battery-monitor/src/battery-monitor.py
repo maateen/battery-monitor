@@ -4,7 +4,7 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('Notify', '0.7')
 from gi.repository import Gtk
 from gi.repository import Notify
-import os, sys, subprocess
+import os, sys, subprocess, time
 
 
 class MessageDialogWindow(Gtk.Window):
@@ -136,8 +136,12 @@ try:
                                                               '/not-charging.png')
                 notifier.show()
                 notifier.close()
+
+        # Let's delay the loop to minimize CPU usage
+        time.sleep(3)
         previous_state = current_state
         output = get_battery_info()
+
 except:
     print("\nBattery Monitor has been exited successfully.")
     sys.exit(0)
