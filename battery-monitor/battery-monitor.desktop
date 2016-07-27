@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Battery Monitor
+Comment=A utility tool to monitor battery frequently.
+Exec=battery-monitor
+Icon=/usr/share/battery-monitor/icons.png
+Terminal=false
+Type=Application
+StartupNotify=true
