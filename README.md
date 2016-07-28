@@ -42,10 +42,13 @@ If you find a bug, please open a new issue with details: [https://github.com/maa
 - Fixing [issue #7](https://github.com/maateen/battery-monitor/issues/7), decreasing CPU consuming from 40% to below 0.7%
 - Fixing [issue #4](https://github.com/maateen/battery-monitor/issues/4), Adding warning at 30% battery life (temporary solution, will be replaced by a GUI in near future)
 - Fixing [issue #6](https://github.com/maateen/battery-monitor/issues/6), Adding an entry in dash.
+
 ###v0.2.1
 - Adding trusty support.
+
 ###v0.2
 - Adding **Critically Low Battery** warning when battery is below 10%.
 - Adding `ctrl+C` pressing support to stop the `battery-monitor` command on terminal.
+
 ###v0.1
 - Initial release.
