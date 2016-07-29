@@ -34,16 +34,10 @@ class MessageDialogWindow(Gtk.Window):
 
 
 class BatteryMonitor():
-    """
-    @description: This class contains all core methods battery monitor needs.
-    """
-
     def get_battery_info(self):
-        # This method will return battery info
-        # Calling 'upower' shell command, parsing output and storing to
-        # battery dict.
-        battery = {}
-        command = "iface_path=`upower -d | grep \"UPower/devices/battery\" | awk -F: '{print $2}' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'` && upower -i \"$iface_path\""
+        # This function will return battery info
+        # Calling 'acpi -b' shell command and parsing output.
+        command = "acpi -b"
         process = subprocess.Popen(command, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, shell=True)
         output, error = process.communicate()
@@ -61,7 +55,7 @@ class BatteryMonitor():
             sys.exit(0)
 
     def main(self):
-        # This is the main method
+        # This is the main function
         try:
             print("Press 'ctrl+C' to exit.")
             # Declaring variables, for state 1 = Charging, 2 = Discharging, 3 = Not Charging
