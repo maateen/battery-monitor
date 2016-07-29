@@ -40,16 +40,21 @@ class BatteryMonitor():
 
     def get_battery_info(self):
         # This method will return battery info
-        # Calling 'acpi -b' shell command and parsing output.
-        command = "acpi -b"
+        # Calling 'upower' shell command, parsing output and storing to
+        # battery dict.
+        battery = {}
+        command = "iface_path=`upower -d | grep \"UPower/devices/battery\" | awk -F: '{print $2}' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'` && upower -i \"$iface_path\""
         process = subprocess.Popen(command, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, shell=True)
         output, error = process.communicate()
         if output:
-            output = output.decode("utf-8", "strict")[:-1]
-            output = output.replace(',', '')
-            output = output.split(' ')
-            return output
+            output = output.decode("utf-8", "strict")
+            output = output.split('\n')
+            for index in range(8, 20):
+                temp = output[index].split(':')
+                battery[temp[0].strip(' ')] = temp[1].strip(' ')
+            print(battery)
+            return battery
         else:
             error_dialog = MessageDialogWindow(error)
             error_dialog.show_error_message()
@@ -68,15 +73,16 @@ class BatteryMonitor():
             icon_path = path + '/icons'
 
             # Getting battery info
-            output = self.get_battery_info()
+            battery = self.get_battery_info()
 
             # Initializing Notify
-            if 'Battery' in output:
+            if battery['present'] == 'yes':
                 Notify.init("Battery Monitor")
                 notifier = Notify.Notification.new('Battery Monitor',
                                                    'Congrats! Started '
                                                    'to '
-                                                   'monitor just now.', icon_path +
+                                                   'monitor just now.',
+                                                   icon_path +
                                                    "/icon.png")
                 notifier.set_urgency(Notify.Urgency.CRITICAL)
                 notifier.show()
@@ -104,8 +110,9 @@ class BatteryMonitor():
                         if current_state is not previous_state:
                             message = 'Now ' + battery_percentage + '%, ' + \
                                       remaining_time + ' ' + 'until charged!'
-                            notifier.update('Charging', message, icon=icon_path +
-                                                                      '/charging.png')
+                            notifier.update('Charging', message,
+                                            icon=icon_path +
+                                                 '/charging.png')
                             notifier.show()
                             notifier.close()
                     else:
@@ -130,7 +137,7 @@ class BatteryMonitor():
                                         current_battery_percentage is not \
                                         previous_battery_percentage:
                             message = 'Now ' + battery_percentage + '%, ' \
-                                                                     '' + \
+                                                                    '' + \
                                       remaining_time + ' ' + 'remaining!'
                             notifier.update('Low Battery', message,
                                             icon=icon_path +
@@ -142,8 +149,9 @@ class BatteryMonitor():
                             message = 'Now ' + battery_percentage + '%, ' \
                                                                     '' + \
                                       remaining_time + ' ' + 'remaining!'
-                            notifier.update('Discharging', message, icon=icon_path +
-                                                                         '/discharging.png')
+                            notifier.update('Discharging', message,
+                                            icon=icon_path +
+                                                 '/discharging.png')
                             notifier.show()
                             notifier.close()
                         else:
@@ -152,8 +160,9 @@ class BatteryMonitor():
                     current_state = 2
                     if current_state is not previous_state:
                         message = battery_percentage + '% remaining!'
-                        notifier.update('Not Charging', message, icon=icon_path +
-                                                                      '/not-charging.png')
+                        notifier.update('Not Charging', message,
+                                        icon=icon_path +
+                                             '/not-charging.png')
                         notifier.show()
                         notifier.close()
 
@@ -165,6 +174,7 @@ class BatteryMonitor():
         except:
             print("\nBattery Monitor has been exited successfully.")
             sys.exit(0)
+
 
 if __name__ == '__main__':
     monitor = BatteryMonitor()
