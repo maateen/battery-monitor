@@ -141,6 +141,7 @@ try:
         if not monitor.is_updated():
             monitor.get_processed_battery_info()
             notification.show_specific_notifications(monitor)
+            time.sleep(3)
 
 except KeyboardInterrupt:
     Notify.uninit()
