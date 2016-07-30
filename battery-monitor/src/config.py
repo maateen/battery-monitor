@@ -6,9 +6,10 @@ _icon_path = _path + '/icons/'
 ICONS = {
     "success": "icon.png",
     "fail": "icon.png",
-    "charging": "charging.png",
-    "discharging": "discharging.png",
-    "fully-charged":  "not-charging.png",
+    "Charging": "charging.png",
+    "Discharging": "discharging.png",
+    "Full":  "not-charging.png",
+    "Unknown":  "not-charging.png",
     "very_low_battery": "low-battery.png",
     "low_battery": "low-battery.png",
 }
@@ -27,29 +28,34 @@ MESSAGES = {
         u"Battery is not yet present!"
     ),
 
-    "charging": (
+    "Charging": (
         u"Charging",
-        u"Now {battery_percentage} %, {remaining_time} until charged"
+        u"Now {battery_percentage} %, {remaining_time}"
     ),
     
-    "discharging": (
+    "Discharging": (
         u"Discharging",
-        u"Now {battery_percentage} %, remaining {remaining_time}"
+        u"Now {battery_percentage} %, {remaining_time}"
     ),
     
-    "fully-charged": (
+    "Full": (
+        u"Fully Charged",
+        u"{battery_percentage} % Remaining"
+    ),
+
+    "Unknown": (
         u"Fully Charged",
         u"{battery_percentage} % Remaining"
     ),
 
     "very_low_battery": (
         u"Critically Low Battery",
-        u"Only {battery_percentage} %, {remaining_time} remaining"
+        u"Only {battery_percentage} %, {remaining_time}"
     ),
 
     "low_battery": (
         u"Low Battery",
-        u"Now {battery_percentage} %, {remaining_time} remaining"
+        u"Now {battery_percentage} %, {remaining_time}"
     ),
 }
 

@@ -25,11 +25,10 @@ class BatteryMonitor:
 
     def __init__(self):
         self.raw_battery_info = self.get_raw_battery_info()
-        self.processed_battery_info = self.get_processed_battery_info()
+        self.get_processed_battery_info()
 
     def get_raw_battery_info(self):
-        command = ('upower -i /org/freedesktop/UPower/devices/battery_BAT0 |'
-                   'grep -E "state|time to empty|percentage|time to full"')
+        command = "acpi -b"
         raw_info = subprocess.check_output(command,
                                            stderr=subprocess.PIPE,
                                            shell=True)
@@ -45,14 +44,17 @@ class BatteryMonitor:
         return True
 
     def get_processed_battery_info(self):
-        in_list = list(self.raw_battery_info.decode("utf-8", "strict")
-                                            .replace(" ", "").split())
-        tuple_list = [(obj.split(':')) for obj in in_list]
-        dictionary = dict(tuple_list)
+        in_list = (self.raw_battery_info.decode("utf-8", "strict")
+                                        .split(": ", 1)[1].split(", "))
 
-        self.processed_battery_info = dictionary
-        print(dictionary)
-        return dictionary
+        self.processed_battery_info["state"] = in_list[0]
+        self.processed_battery_info["percentage"] = in_list[1]
+        try:
+            self.processed_battery_info["remaining"] = in_list[2]
+        except IndexError:
+            pass
+
+        return self.processed_battery_info
 
 
 class Notification:
@@ -92,7 +94,7 @@ class Notification:
         info = monitor.processed_battery_info
         state = info["state"]
         percentage = int(info["percentage"].replace("%", ""))
-        remaining = info.get("timetoempty") or info.get("timetofull")
+        remaining = info.get("remaining")
 
         # Show warning one time for each percentage while its low battery.
         # Low battery notification shuld not be show while it is charging.
@@ -119,7 +121,10 @@ class Notification:
 
         # Show Notification only while state changes.
         # Notification should not be shown for each percentage change.
-        if state != self.last_notification:
+        # Sometime acpi return remaining time like 
+        # *discharging at zero rate - will never fully discharge*
+        # We should skip it
+        if state != self.last_notification and remaining != "discharging at zero rate - will never fully discharge":
             self.last_notification = state
             self.last_percentage = percentage
             self.show_notification(type=state,
@@ -141,7 +146,8 @@ try:
         if not monitor.is_updated():
             monitor.get_processed_battery_info()
             notification.show_specific_notifications(monitor)
-            time.sleep(3)
+
+        time.sleep(3)
 
 except KeyboardInterrupt:
     Notify.uninit()
