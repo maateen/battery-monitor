@@ -1,12 +1,11 @@
-import gi
-import os
-import sys
 import subprocess
+import sys
 import time
 
-from gi.repository import Gtk
-from gi.repository import Notify
+import gi
 
+gi.require_version('Notify', '0.7')
+from gi.repository import Notify
 
 try:
     # Python 3.x
@@ -14,9 +13,6 @@ try:
 except:
     # Python 2.x
     from config import ICONS, MESSAGES
-
-gi.require_version('Gtk', '3.0')
-gi.require_version('Notify', '0.7')
 
 
 class BatteryMonitor:
@@ -45,7 +41,7 @@ class BatteryMonitor:
 
     def get_processed_battery_info(self):
         in_list = (self.raw_battery_info.decode("utf-8", "strict")
-                                        .split(": ", 1)[1].split(", "))
+                   .split(": ", 1)[1].split(", "))
 
         self.processed_battery_info["state"] = in_list[0]
         self.processed_battery_info["percentage"] = in_list[1]
@@ -66,7 +62,7 @@ class Notification:
         self.notifier.show()
 
     def generate_notification(self, type):
-        """Generate a new notification and return a notifier object"""
+        # Generate a new notification and return a notifier object
 
         Notify.init("Battery Monitor")
         message = MESSAGES[type]
