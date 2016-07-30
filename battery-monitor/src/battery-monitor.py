@@ -1,171 +1,153 @@
 import gi
+import os
+import sys
+import subprocess
+import time
+
+from gi.repository import Gtk
+from gi.repository import Notify
+
+
+try:
+    # Python 3.x
+    from .config import ICONS, MESSAGES
+except:
+    # Python 2.x
+    from config import ICONS, MESSAGES
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('Notify', '0.7')
-from gi.repository import Gtk
-from gi.repository import Notify
-import os, sys, subprocess, time
 
 
-class MessageDialogWindow(Gtk.Window):
-    """
-    @description: This class show error message dialog
-    To show it on nay page just import the class and then
-        win = MessageDialogWindow()
-        win.show_error_message()
-        win.show_all()
-    @param: text
-        text will show in the dialog
-    """
+class BatteryMonitor:
+    raw_battery_info = ''
+    processed_battery_info = {}
 
-    def __init__(self, text):
-        Gtk.Window.__init__(self)
-        self.text = text
+    def __init__(self):
+        self.raw_battery_info = self.get_raw_battery_info()
+        self.processed_battery_info = self.get_processed_battery_info()
 
-    def show_error_message(self):
-        dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR,
-                                   Gtk.ButtonsType.CANCEL,
-                                   "Error")
-        dialog.format_secondary_text(self.text)
-        dialog.run()
-        print("Error dialog closed")
+    def get_raw_battery_info(self):
+        command = ('upower -i /org/freedesktop/UPower/devices/battery_BAT0 |'
+                   'grep -E "state|time to empty|percentage|time to full"')
+        raw_info = subprocess.check_output(command,
+                                           stderr=subprocess.PIPE,
+                                           shell=True)
+        return raw_info
 
-        dialog.destroy()
+    def is_updated(self):
+        current_raw_info = self.get_raw_battery_info()
+
+        if self.raw_battery_info != current_raw_info:
+            self.raw_battery_info = current_raw_info
+            return False
+
+        return True
+
+    def get_processed_battery_info(self):
+        in_list = list(self.raw_battery_info.decode("utf-8", "strict")
+                                            .replace(" ", "").split())
+        tuple_list = [(obj.split(':')) for obj in in_list]
+        dictionary = dict(tuple_list)
+
+        self.processed_battery_info = dictionary
+        print(dictionary)
+        return dictionary
 
 
-class BatteryMonitor():
-    """
-    @description: This class contains all core methods battery monitor needs.
-    """
+class Notification:
+    last_notification = None
+    last_percentage = None
 
-    def get_battery_info(self):
-        # This method will return battery info
-        # Calling 'acpi -b' shell command and parsing output.
-        command = "acpi -b"
-        process = subprocess.Popen(command, stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE, shell=True)
-        output, error = process.communicate()
-        if output:
-            output = output.decode("utf-8", "strict")[:-1]
-            output = output.replace(',', '')
-            output = output.split(' ')
-            return output
-        else:
-            error_dialog = MessageDialogWindow(error)
-            error_dialog.show_error_message()
-            sys.exit(0)
+    def __init__(self, type):
+        self.notifier = self.generate_notification(type)
+        self.notifier.show()
 
-    def main(self):
-        # This is the main method
-        try:
-            print("Press 'ctrl+C' to exit.")
-            # Declaring variables, for state 1 = Charging, 2 = Discharging, 3 = Not Charging
-            current_state = 0
-            previous_state = 0
-            current_battery_percentage = 0
-            previous_battery_percentage = 0
-            path = os.path.dirname(os.path.abspath(__file__))
-            icon_path = path + '/icons'
+    def generate_notification(self, type):
+        """Generate a new notification and return a notifier object"""
 
-            # Getting battery info
-            output = self.get_battery_info()
+        Notify.init("Battery Monitor")
+        message = MESSAGES[type]
+        head = message[0]
+        body = message[1]
+        icon = ICONS[type]
+        notifier = Notify.Notification.new(head, body, icon)
+        notifier.set_urgency(Notify.Urgency.CRITICAL)
+        return notifier
 
-            # Initializing Notify
-            if 'Battery' in output:
-                Notify.init("Battery Monitor")
-                notifier = Notify.Notification.new('Battery Monitor',
-                                                   'Congrats! Started '
-                                                   'to '
-                                                   'monitor just now.', icon_path +
-                                                   "/icon.png")
-                notifier.set_urgency(Notify.Urgency.CRITICAL)
-                notifier.show()
-            else:
-                Notify.init("Battery Monitor")
-                notifier = Notify.Notification.new('Battery Monitor',
-                                                   'Battery is not yet '
-                                                   'present!', icon_path +
-                                                   "/icon.png")
-                notifier.set_urgency(Notify.Urgency.CRITICAL)
-                notifier.show()
-                notifier.close()
-                Notify.uninit()
-                sys.exit(0)
+    def show_notification(self, type, battery_percentage,
+                          remaining_time=None, _time=0):
 
-            # Showing notification on parsed output
-            while 'Battery' in output:
-                battery_percentage = output[3]
-                battery_percentage = battery_percentage.strip(' %')
-                if len(output) > 4:
-                    remaining_time = output[4]
+        message = MESSAGES[type]
+        head = message[0]
+        body = message[1].format(battery_percentage=battery_percentage,
+                                 remaining_time=remaining_time)
+        icon = ICONS[type]
+        self.notifier.update(head, body, icon)
+        self.notifier.show()
+        time.sleep(_time)
+        self.notifier.close()
 
-                    if 'Charging' in output:
-                        current_state = 0
-                        if current_state is not previous_state:
-                            message = 'Now ' + battery_percentage + '%, ' + \
-                                      remaining_time + ' ' + 'until charged!'
-                            notifier.update('Charging', message, icon=icon_path +
-                                                                      '/charging.png')
-                            notifier.show()
-                            notifier.close()
-                    else:
-                        current_state = 1
-                        current_battery_percentage = int(battery_percentage)
-                        if current_battery_percentage <= 10 and \
-                                        current_battery_percentage is not \
-                                        previous_battery_percentage:
-                            message = 'Only ' + battery_percentage + '%, ' \
-                                                                     '' + \
-                                      remaining_time + ' ' + 'remaining!'
-                            notifier.update('Critically Low Battery', message,
-                                            icon=icon_path +
-                                                 '/low-battery.png')
-                            os.system('play ' + path + '/sound.wav &')
-                            notifier.show()
-                            notifier.close()
-                            previous_battery_percentage = current_battery_percentage
-                        # Temporary solution to issue 4
-                        # Will make a GUI for this
-                        elif current_battery_percentage == 30 and \
-                                        current_battery_percentage is not \
-                                        previous_battery_percentage:
-                            message = 'Now ' + battery_percentage + '%, ' \
-                                                                     '' + \
-                                      remaining_time + ' ' + 'remaining!'
-                            notifier.update('Low Battery', message,
-                                            icon=icon_path +
-                                                 '/low-battery.png')
-                            notifier.show()
-                            notifier.close()
-                            previous_battery_percentage = current_battery_percentage
-                        elif current_state is not previous_state:
-                            message = 'Now ' + battery_percentage + '%, ' \
-                                                                    '' + \
-                                      remaining_time + ' ' + 'remaining!'
-                            notifier.update('Discharging', message, icon=icon_path +
-                                                                         '/discharging.png')
-                            notifier.show()
-                            notifier.close()
-                        else:
-                            pass
-                else:
-                    current_state = 2
-                    if current_state is not previous_state:
-                        message = battery_percentage + '% remaining!'
-                        notifier.update('Not Charging', message, icon=icon_path +
-                                                                      '/not-charging.png')
-                        notifier.show()
-                        notifier.close()
+    def show_specific_notifications(self, monitor):
+        info = monitor.processed_battery_info
+        state = info["state"]
+        percentage = int(info["percentage"].replace("%", ""))
+        remaining = info.get("timetoempty") or info.get("timetofull")
 
-                # Let's delay the loop to minimize CPU usage
-                time.sleep(3)
-                previous_state = current_state
-                output = self.get_battery_info()
+        # Show warning one time for each percentage while its low battery.
+        # Low battery notification shuld not be show while it is charging.
+        # Also Keep in memory which notification was showed last time
+        if self.last_percentage != percentage and state != "charging":
 
-        except:
-            print("\nBattery Monitor has been exited successfully.")
-            sys.exit(0)
+            if percentage <= 10:
+                self.last_notification = "very_low_battery"
+                self.last_percentage = percentage
+                self.show_notification(type="very_low_battery",
+                                       battery_percentage=percentage,
+                                       remaining_time=remaining)
 
-if __name__ == '__main__':
+                return "very_low_battery"
+
+            elif percentage == 30:
+                self.last_notification = "low_battery"
+                self.last_percentage = percentage
+                self.show_notification(type="low_battery",
+                                       battery_percentage=percentage,
+                                       remaining_time=remaining)
+
+                return "low_battery"
+
+        # Show Notification only while state changes.
+        # Notification should not be shown for each percentage change.
+        if state != self.last_notification:
+            self.last_notification = state
+            self.last_percentage = percentage
+            self.show_notification(type=state,
+                                   battery_percentage=percentage,
+                                   remaining_time=remaining)
+
+            return state
+
+
+try:
+    print("Press 'ctrl+C' to exit.")
+
     monitor = BatteryMonitor()
-    monitor.main()
+    notification = Notification("success")
+    time.sleep(3)
+    notification.show_specific_notifications(monitor)
+
+    while True:
+        if not monitor.is_updated():
+            monitor.get_processed_battery_info()
+            notification.show_specific_notifications(monitor)
+
+except KeyboardInterrupt:
+    Notify.uninit()
+    print("\nBattery Monitor has been exited successfully.")
+    sys.exit(0)
+
+except subprocess.CalledProcessError:
+    # Means There are no battery
+    notification = Notification("fail")
+    Notify.uninit()
