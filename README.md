@@ -52,3 +52,7 @@ If you find a bug, please open a new issue with details: [https://github.com/maa
 
 ###v0.1
 - Initial release.
+
+##Contributors
+###[Safwan Rahman](https://github.com/safwanrahman)
+One of the biggest contributor of **Battery Monitor**. He has reformated the code in a new style. The style represents the code easier to understand. Also he has optimized the code in a way that **Battery Monitor** consumes a little resource of your PC. Please take a minute to thank him.
