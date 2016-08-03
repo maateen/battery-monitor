@@ -38,6 +38,10 @@ If you find a bug, please open a new issue with details: [https://github.com/maa
 ####Critically Low Battery State
 ![Critically Low Battery State](https://s20.postimg.org/ncfrbq6wd/Screenshot_from_2016_07_23_03_09_54.png)
 ##Changelog
+###v.04
+- Reformatting the code in a new style.
+- Optimizing the code in a way so that Battery Monitor consumes a little resource of your PC.
+
 ###v0.3
 - Fixing [issue #7](https://github.com/maateen/battery-monitor/issues/7), decreasing CPU consuming from 40% to below 0.7%
 - Fixing [issue #4](https://github.com/maateen/battery-monitor/issues/4), Adding warning at 30% battery life (temporary solution, will be replaced by a GUI in near future)
@@ -55,4 +59,4 @@ If you find a bug, please open a new issue with details: [https://github.com/maa
 
 ##Contributors
 ###[Safwan Rahman](https://github.com/safwanrahman)
-One of the biggest contributor of **Battery Monitor**. He has reformated the code in a new style. The style represents the code easier to understand. Also he has optimized the code in a way so that **Battery Monitor** consumes a little resource of your PC. Please take a minute to thank him.
+One of the biggest contributor of **Battery Monitor**. He has reformated the code in a new style. The style represents the code easier to understand. Also he has optimized the code in a way that **Battery Monitor** consumes a little resource of your PC. Please take a minute to thank him.

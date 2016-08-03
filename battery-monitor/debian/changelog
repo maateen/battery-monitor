@@ -1,3 +1,10 @@
+battery-monitor (0.4-xenial) xenial; urgency=medium
+
+  * Reformatting the code in a new style.
+  * Optimizing the code in a way so that Battery Monitor consumes a little resource of your PC.
+
+ -- Maksudur Rahman Maateen <maateen@outlook.com>  Wed, 03 Aug 2016 07:27:12 +0600
+
 battery-monitor (0.3-xenial) xenial; urgency=medium
 
   * Fixing issue #7, decreasing CPU consuming from 40% to below 0.7%
