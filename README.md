@@ -28,15 +28,15 @@ Every time, you will start/restart your PC, it will run automatically in backgro
 If you find a bug, please open a new issue with details: [https://github.com/maateen/battery-monitor/issues](https://github.com/maateen/battery-monitor/issues)
 ##Screenshots
 ####Initial State
-![Initial State](https://s20.postimg.org/6xltz5ox9/Screenshot_from_2016_07_22_20_42_29.png)
+![Initial State](https://github.com/maateen/battery-monitor/blob/gh-pages/Screenshot_from_2016_07_22_20_42_29.png)
 ####Charging State
-![Charging State](https://s20.postimg.org/qpnzyg0h9/Screenshot_from_2016_07_22_20_42_52.png)
+![Charging State](https://github.com/maateen/battery-monitor/blob/gh-pages/Screenshot_from_2016_07_22_20_42_52.png)
 ####Discharging State
-![Discharging State](https://s20.postimg.org/afxtvjpt9/Screenshot_from_2016_07_22_20_42_42.png)
+![Discharging State](https://github.com/maateen/battery-monitor/blob/gh-pages/Screenshot_from_2016_07_22_20_42_42.png)
 ####Not Charging State
-![Not Charging State](https://s20.postimg.org/aihpidtgt/Screenshot_from_2016_07_22_21_11_49.png)
+![Not Charging State](https://github.com/maateen/battery-monitor/blob/gh-pages/Screenshot_from_2016_07_22_21_11_49.png)
 ####Critically Low Battery State
-![Critically Low Battery State](https://s20.postimg.org/ncfrbq6wd/Screenshot_from_2016_07_23_03_09_54.png)
+![Critically Low Battery State](https://github.com/maateen/battery-monitor/blob/gh-pages/Screenshot_from_2016_07_23_03_09_54.png)
 ##Changelog
 ###v.04
 - Reformatting the code in a new style.
