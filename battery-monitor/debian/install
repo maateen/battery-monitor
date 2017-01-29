@@ -1,4 +1,0 @@
-src/* /usr/share/battery-monitor
-battery-monitor /usr/bin/
-battery-monitor.conf /etc/init/
-battery-monitor.desktop /usr/share/applications/
