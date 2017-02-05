@@ -74,7 +74,7 @@ class Notification:
         return notifier
 
     def show_notification(self, type, battery_percentage,
-                          remaining_time=None, _time=0):
+                          remaining_time=None, _time=5):
 
         message = MESSAGES[type]
         head = message[0]
