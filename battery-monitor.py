@@ -74,7 +74,7 @@ class Notification:
         return notifier
 
     def show_notification(self, type, battery_percentage,
-                          remaining_time=None, _time=0):
+                          remaining_time=None, _time=5):
 
         message = MESSAGES[type]
         head = message[0]
@@ -128,6 +128,10 @@ class Notification:
                                    remaining_time=remaining)
 
             return state
+        
+    def __del__(self):
+        self.notifier.close()
+        Notify.uninit()
 
 
 try:
@@ -146,11 +150,11 @@ try:
         time.sleep(3)
 
 except KeyboardInterrupt:
-    Notify.uninit()
     print("\nBattery Monitor has been exited successfully.")
+    del notification
     sys.exit(0)
 
 except subprocess.CalledProcessError:
     # Means There are no battery
     notification = Notification("fail")
-    Notify.uninit()
+    del notification
