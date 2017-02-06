@@ -58,20 +58,14 @@ class Notification:
     last_percentage = None
 
     def __init__(self, type):
-        self.notifier = self.generate_notification(type)
-        self.notifier.show()
-
-    def generate_notification(self, type):
-        # Generate a new notification and return a notifier object
-
         Notify.init("Battery Monitor")
         message = MESSAGES[type]
         head = message[0]
         body = message[1]
         icon = ICONS[type]
-        notifier = Notify.Notification.new(head, body, icon)
-        notifier.set_urgency(Notify.Urgency.CRITICAL)
-        return notifier
+        self.notifier = Notify.Notification.new(head, body, icon)
+        self.notifier.set_urgency(Notify.Urgency.CRITICAL)
+        self.notifier.show()
 
     def show_notification(self, type, battery_percentage,
                           remaining_time=None, _time=5):
