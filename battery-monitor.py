@@ -35,12 +35,12 @@ class BatteryMonitor:
 
         if self.raw_battery_info != current_raw_info:
             self.raw_battery_info = current_raw_info
-            return False
+            return True
 
-        return True
+        return False
 
     def get_processed_battery_info(self):
-        in_list = (self.raw_battery_info.decode("utf-8", "strict")
+        in_list = (self.raw_battery_info.decode("utf-8", "strict").lower().strip('\n')
                    .split(": ", 1)[1].split(", "))
 
         self.processed_battery_info["state"] = in_list[0]
@@ -58,20 +58,14 @@ class Notification:
     last_percentage = None
 
     def __init__(self, type):
-        self.notifier = self.generate_notification(type)
-        self.notifier.show()
-
-    def generate_notification(self, type):
-        # Generate a new notification and return a notifier object
-
         Notify.init("Battery Monitor")
         message = MESSAGES[type]
         head = message[0]
         body = message[1]
         icon = ICONS[type]
-        notifier = Notify.Notification.new(head, body, icon)
-        notifier.set_urgency(Notify.Urgency.CRITICAL)
-        return notifier
+        self.notifier = Notify.Notification.new(head, body, icon)
+        self.notifier.set_urgency(Notify.Urgency.CRITICAL)
+        self.notifier.show()
 
     def show_notification(self, type, battery_percentage,
                           remaining_time=None, _time=5):
@@ -87,7 +81,7 @@ class Notification:
         self.notifier.close()
 
     def show_specific_notifications(self, monitor):
-        info = monitor.processed_battery_info
+        info = monitor.get_processed_battery_info()
         state = info["state"]
         percentage = int(info["percentage"].replace("%", ""))
         remaining = info.get("remaining")
@@ -143,8 +137,7 @@ try:
     notification.show_specific_notifications(monitor)
 
     while True:
-        if not monitor.is_updated():
-            monitor.get_processed_battery_info()
+        if monitor.is_updated():
             notification.show_specific_notifications(monitor)
 
         time.sleep(3)
@@ -155,6 +148,5 @@ except KeyboardInterrupt:
     sys.exit(0)
 
 except subprocess.CalledProcessError:
-    # Means There are no battery
     notification = Notification("fail")
     del notification
