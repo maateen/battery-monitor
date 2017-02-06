@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Battery Monitor
-Comment=A utility tool to monitor battery frequently.
-Exec=python3 /usr/share/battery-monitor/battery-monitor.py
-Icon=/usr/share/battery-monitor/icons/icon.png
-Terminal=false
-Type=Application
-StartupNotify=true
-Categories=Utility;Application;
