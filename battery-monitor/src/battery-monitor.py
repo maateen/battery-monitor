@@ -35,9 +35,9 @@ class BatteryMonitor:
 
         if self.raw_battery_info != current_raw_info:
             self.raw_battery_info = current_raw_info
-            return False
+            return True
 
-        return True
+        return False
 
     def get_processed_battery_info(self):
         in_list = (self.raw_battery_info.decode("utf-8", "strict")
@@ -143,7 +143,7 @@ try:
     notification.show_specific_notifications(monitor)
 
     while True:
-        if not monitor.is_updated():
+        if monitor.is_updated():
             notification.show_specific_notifications(monitor)
 
         time.sleep(3)
