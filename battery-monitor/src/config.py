@@ -6,10 +6,10 @@ _icon_path = _path + '/icons/'
 ICONS = {
     "success": "icon.png",
     "fail": "icon.png",
-    "Charging": "charging.png",
-    "Discharging": "discharging.png",
-    "Full":  "not-charging.png",
-    "Unknown":  "not-charging.png",
+    "charging": "charging.png",
+    "discharging": "discharging.png",
+    "full":  "not-charging.png",
+    "unknown":  "not-charging.png",
     "very_low_battery": "low-battery.png",
     "low_battery": "low-battery.png",
 }
@@ -28,22 +28,22 @@ MESSAGES = {
         u"Battery is not yet present!"
     ),
 
-    "Charging": (
+    "charging": (
         u"Charging",
         u"Now {battery_percentage} %, {remaining_time}"
     ),
     
-    "Discharging": (
+    "discharging": (
         u"Discharging",
         u"Now {battery_percentage} %, {remaining_time}"
     ),
     
-    "Full": (
+    "full": (
         u"Fully Charged",
         u"{battery_percentage} % Remaining"
     ),
 
-    "Unknown": (
+    "unknown": (
         u"Fully Charged",
         u"{battery_percentage} % Remaining"
     ),

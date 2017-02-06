@@ -40,7 +40,7 @@ class BatteryMonitor:
         return False
 
     def get_processed_battery_info(self):
-        in_list = (self.raw_battery_info.decode("utf-8", "strict")
+        in_list = (self.raw_battery_info.decode("utf-8", "strict").lower()
                    .split(": ", 1)[1].split(", "))
 
         self.processed_battery_info["state"] = in_list[0]
@@ -148,6 +148,5 @@ except KeyboardInterrupt:
     sys.exit(0)
 
 except subprocess.CalledProcessError:
-    # Means There are no battery
     notification = Notification("fail")
     del notification
