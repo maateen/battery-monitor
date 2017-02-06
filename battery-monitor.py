@@ -92,10 +92,9 @@ class Notification:
         # Low battery notification shuld not be show while it is charging.
         # Also Keep in memory which notification was showed last time
         if self.last_percentage != percentage and state != "charging":
-
+            self.last_percentage = percentage
             if percentage <= 10:
                 self.last_notification = "very_low_battery"
-                self.last_percentage = percentage
                 self.show_notification(type="very_low_battery",
                                        battery_percentage=percentage,
                                        remaining_time=remaining)
@@ -104,7 +103,6 @@ class Notification:
 
             elif percentage == 30:
                 self.last_notification = "low_battery"
-                self.last_percentage = percentage
                 self.show_notification(type="low_battery",
                                        battery_percentage=percentage,
                                        remaining_time=remaining)
@@ -118,7 +116,6 @@ class Notification:
         # We should skip it
         if state != self.last_notification and remaining != "discharging at zero rate - will never fully discharge":
             self.last_notification = state
-            self.last_percentage = percentage
             self.show_notification(type=state,
                                    battery_percentage=percentage,
                                    remaining_time=remaining)
