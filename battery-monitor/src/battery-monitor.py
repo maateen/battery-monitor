@@ -87,7 +87,7 @@ class Notification:
         self.notifier.close()
 
     def show_specific_notifications(self, monitor):
-        info = monitor.processed_battery_info
+        info = monitor.get_processed_battery_info()
         state = info["state"]
         percentage = int(info["percentage"].replace("%", ""))
         remaining = info.get("remaining")
@@ -144,7 +144,6 @@ try:
 
     while True:
         if not monitor.is_updated():
-            monitor.get_processed_battery_info()
             notification.show_specific_notifications(monitor)
 
         time.sleep(3)
