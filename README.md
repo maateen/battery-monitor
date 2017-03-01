@@ -77,7 +77,7 @@ If you find a bug, please open a new issue with details: [https://github.com/maa
 
 - Rewriting some parts, specially the battery checker loop in C.
 - Developing a GUI to manage the custom warning easily.
-- Minizming CPU consumption below 0.1%.
+- Minimizing CPU consumption below 0.1%.
 - Adding PPA support for new Ubuntu releases.
 
 ## Changelog
