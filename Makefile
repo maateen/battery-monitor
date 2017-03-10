@@ -2,7 +2,7 @@ SHELL := /bin/bash
 OUT_DIR = /usr/share/battery-monitor
 
 install:
-	@echo You must be root to install
+	@echo You must be root to install.
 	@mkdir -p $(OUT_DIR)
 	@cp battery-monitor.py $(OUT_DIR)/battery-monitor.py
 	@cp config.py $(OUT_DIR)/config.py
@@ -14,7 +14,7 @@ install:
 	@echo Installation completed!
 
 upgrade:
-	@echo You must be root to install
+	@echo You must be root to upgrade.
 	@rm -rf $(OUT_DIR)
 	@mkdir -p $(OUT_DIR)
 	@cp battery-monitor.py $(OUT_DIR)/battery-monitor.py
