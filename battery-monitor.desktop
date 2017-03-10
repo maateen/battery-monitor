@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Battery Monitor
+Type=Application
+Exec=python3 /usr/share/battery-monitor/battery-monitor.py
+Terminal=false
+Icon=/usr/share/battery-monitor/icons/icon.png
+Comment=Battery Monitor is a utility tool which will notify user about various states of the battery on Linux.
+NoDisplay=false
+Categories=Utility;

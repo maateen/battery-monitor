@@ -10,6 +10,7 @@ install:
 	@cp sound.wav $(OUT_DIR)/sound.wav
 	@cp battery-monitor /usr/bin/battery-monitor
 	@chmod +x /usr/bin/battery-monitor
+	@cp battery-monitor.desktop ~/.config/autostart/battery-monitor.desktop
 	@echo Installation completed!
 
 upgrade:
@@ -22,4 +23,5 @@ upgrade:
 	@cp sound.wav $(OUT_DIR)/sound.wav
 	@cp battery-monitor /usr/bin/battery-monitor
 	@chmod +x /usr/bin/battery-monitor
+	@cp battery-monitor.desktop ~/.config/autostart/battery-monitor.desktop
 	@echo Installation completed!
