@@ -111,7 +111,7 @@ class Notification:
 
         # Show Notification only while state changes.
         # Notification should not be shown for each percentage change.
-        # Sometime acpi return remaining time like 
+        # Sometime acpi return remaining time like
         # *discharging at zero rate - will never fully discharge*
         # We should skip it
         if state != self.last_notification and remaining != "discharging at zero rate - will never fully discharge":
@@ -121,7 +121,7 @@ class Notification:
                                    remaining_time=remaining)
 
             return state
-        
+
     def __del__(self):
         self.notifier.close()
         Notify.uninit()
