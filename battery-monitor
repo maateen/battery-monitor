@@ -1,1 +1,3 @@
+#!/bin/bash
+
 python3 /usr/share/battery-monitor/battery-monitor.py
