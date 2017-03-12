@@ -1,7 +1,10 @@
 SHELL := /bin/bash
 OUT_DIR = /usr/share/battery-monitor
 
-install:
+all: install
+	@:
+
+install: all
 	@echo You must be root to install.
 	@mkdir -p $(OUT_DIR)
 	@cp battery-monitor.py $(OUT_DIR)/battery-monitor.py
@@ -12,3 +15,10 @@ install:
 	@chmod +x /usr/bin/battery-monitor
 	@cp battery-monitor.desktop ~/.config/autostart/battery-monitor.desktop
 	@echo Installation completed!
+
+uninstall:
+	@echo You must be root to uninstall.
+	@rm -rf $(OUT_DIR)
+	@rm -f /usr/bin/battery-monitor
+	@rm -f ~/.config/autostart/battery-monitor.desktop
+	@echo Uninstallation completed!
