@@ -29,7 +29,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.second_custom_warning = ''
         self.third_custom_warning = ''
         self.battery_checking_interval = '3'
-        self.notification_stability = '3'
+        self.notification_stability = '5'
         self.load_config()
 
         label0 = Gtk.Label('Very Low Battery Warning at')
