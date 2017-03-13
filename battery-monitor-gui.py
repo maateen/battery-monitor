@@ -51,14 +51,10 @@ class MainWindow(Gtk.ApplicationWindow):
         label4.set_justify(Gtk.Justification.LEFT)
         label4.set_halign(Gtk.Align.START)
         label4.set_hexpand(True)
-        label5 = Gtk.Label('Battery Checking Interval')
+        label5 = Gtk.Label('Notification Stability')
         label5.set_justify(Gtk.Justification.LEFT)
         label5.set_halign(Gtk.Align.START)
         label5.set_hexpand(True)
-        label6 = Gtk.Label('Notification Stability')
-        label6.set_justify(Gtk.Justification.LEFT)
-        label6.set_halign(Gtk.Align.START)
-        label6.set_hexpand(True)
 
         self.entry0 = Gtk.Entry()
         self.entry0.set_text(str(self.very_low_battery))
@@ -76,11 +72,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.entry4.set_text(str(self.third_custom_warning))
         self.entry4.set_tooltip_text('Set in percentage')
         self.entry5 = Gtk.Entry()
-        self.entry5.set_text(str(self.battery_checking_interval))
+        self.entry5.set_text(str(self.notification_stability))
         self.entry5.set_tooltip_text('Set in second')
-        self.entry6 = Gtk.Entry()
-        self.entry6.set_text(str(self.notification_stability))
-        self.entry6.set_tooltip_text('Set in second')
 
         save_button = Gtk.Button(label='Save')
         save_button.connect('clicked', self.save_config)
@@ -105,8 +98,6 @@ class MainWindow(Gtk.ApplicationWindow):
         grid.attach(self.entry4, 14, 4, 1, 1)
         grid.attach(label5, 0, 5, 14, 1)
         grid.attach(self.entry5, 14, 5, 1, 1)
-        grid.attach(label6, 0, 6, 14, 1)
-        grid.attach(self.entry6, 14, 6, 1, 1)
         grid.attach(save_button, 9, 7, 1, 1)
 
     def load_config(self):
@@ -141,8 +132,6 @@ class MainWindow(Gtk.ApplicationWindow):
             f.write('first_custom_warning=' + self.entry2.get_text() + '\n')
             f.write('second_custom_warning=' + self.entry3.get_text() + '\n')
             f.write('third_custom_warning=' + self.entry4.get_text() + '\n')
-            f.write('battery_checking_interval=' +
-                    self.entry5.get_text() + '\n')
             f.write('notification_stability=' + self.entry6.get_text() + '\n')
             f.close()
             dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
