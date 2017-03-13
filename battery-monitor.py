@@ -78,8 +78,7 @@ class Notification:
         self.first_custom_warning = ''
         self.second_custom_warning = ''
         self.third_custom_warning = ''
-        self.battery_checking_interval = '3'
-        self.notification_stability = '3'
+        self.notification_stability = '5'
         self.load_config()
 
     def load_config(self):
@@ -98,15 +97,13 @@ class Notification:
                         self.second_custom_warning = field[1]
                     elif field[0] == 'third_custom_warning':
                         self.third_custom_warning = field[1]
-                    elif field[0] == 'battery_checking_interval':
-                        self.battery_checking_interval = field[1]
                     elif field[0] == 'notification_stability':
                         self.notification_stability = field[1]
         else:
             print('Config file is missing.')
 
     def show_notification(self, type, battery_percentage,
-                          remaining_time=None):
+                          remaining_time=None, _time=5):
 
         message = MESSAGES[type]
         head = message[0]
@@ -192,14 +189,14 @@ try:
 
     monitor = BatteryMonitor()
     notification = Notification("success")
-    time.sleep(int(self.notification_stability))
+    time.sleep(3)
     notification.show_specific_notifications(monitor)
 
     while True:
         if monitor.is_updated():
             notification.show_specific_notifications(monitor)
 
-        time.sleep(int(self.battery_checking_interval))
+        time.sleep(3)
 
 except KeyboardInterrupt:
     print("\nBattery Monitor has been exited successfully.")

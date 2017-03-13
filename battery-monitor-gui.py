@@ -28,7 +28,6 @@ class MainWindow(Gtk.ApplicationWindow):
         self.first_custom_warning = ''
         self.second_custom_warning = ''
         self.third_custom_warning = ''
-        self.battery_checking_interval = '3'
         self.notification_stability = '5'
         self.load_config()
 
@@ -126,8 +125,6 @@ class MainWindow(Gtk.ApplicationWindow):
                         self.second_custom_warning = field[1]
                     elif field[0] == 'third_custom_warning':
                         self.third_custom_warning = field[1]
-                    elif field[0] == 'battery_checking_interval':
-                        self.battery_checking_interval = field[1]
                     elif field[0] == 'notification_stability':
                         self.notification_stability = field[1]
         else:
