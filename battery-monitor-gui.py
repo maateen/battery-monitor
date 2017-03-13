@@ -3,30 +3,6 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-class MessageDialogWindow(Gtk.Window):
-    """
-    @description: This class show info message dialog
-    To show it on nay page just import the class and then
-        win = MessageDialogWindow()
-        win.show_info_message()
-        win.show_all()
-    @param: text
-        text will show in the dialog
-    """
-
-    def __init__(self, text):
-        Gtk.Window.__init__(self)
-        self.text = text
-
-    def show_info_message(self):
-        dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
-                                   Gtk.ButtonsType.OK,
-                                   "Info")
-        dialog.format_secondary_text(self.text)
-        dialog.run()
-        print("Info dialog closed")
-        dialog.destroy()
-
 class MainWindow(Gtk.ApplicationWindow):
     """
     @description: This class displays the main window that the user will
@@ -41,8 +17,17 @@ class MainWindow(Gtk.ApplicationWindow):
         self.set_position(Gtk.WindowPosition.CENTER)
         path = os.path.dirname(os.path.abspath(__file__))
         self.set_default_icon_from_file(os.path.join(path, 'icons/icon.png'))
+
+        # class variable
         self.config_dir = os.path.expanduser('~/.config/battery-monitor')
         self.config_file = os.path.join(self.config_dir, 'battery-monitor.txt')
+        self.very_low_battery = '10'
+        self.low_battery = '30'
+        self.first_custom_warning = ''
+        self.second_custom_warning = ''
+        self.third_custom_warning = ''
+        self.battery_checking_interval = '3'
+        self.notification_stability = '3'
         self.load_config()
 
         label0 = Gtk.Label('Very Low Battery Warning at')
@@ -124,33 +109,27 @@ class MainWindow(Gtk.ApplicationWindow):
         grid.attach(save_button, 9, 7, 1, 1)
 
     def load_config(self):
-        if True:
+        if os.path.exists(self.config_file):
             with open(self.config_file, 'r') as f:
                 for line in f.readlines():
                     line = line.strip('\n')
                     field = line.split('=')
                     if field[0] == 'very_low_battery':
                         self.very_low_battery = field[1]
-                    elif field[1] == 'low_battery':
+                    elif field[0] == 'low_battery':
                         self.low_battery = field[1]
-                    elif field[2] == 'first_custom_warning':
+                    elif field[0] == 'first_custom_warning':
                         self.first_custom_warning = field[1]
-                    elif field[3] == 'second_custom_warning':
+                    elif field[0] == 'second_custom_warning':
                         self.second_custom_warning = field[1]
-                    elif field[4] == 'third_custom_warning':
+                    elif field[0] == 'third_custom_warning':
                         self.third_custom_warning = field[1]
-                    elif field[5] == 'battery_checking_interval':
+                    elif field[0] == 'battery_checking_interval':
                         self.battery_checking_interval = field[1]
-                    elif field[6] == 'notification_stability':
+                    elif field[0] == 'notification_stability':
                         self.notification_stability = field[1]
         else:
-            self.very_low_battery = '10'
-            self.low_battery = '30'
-            self.first_custom_warning = ''
-            self.second_custom_warning = ''
-            self.third_custom_warning = ''
-            self.battery_checking_interval = '3'
-            self.notification_stability = '3'
+            print('Config file is missing.')
 
     def save_config(self, widget):
         if os.path.exists(self.config_dir):
@@ -166,9 +145,13 @@ class MainWindow(Gtk.ApplicationWindow):
             f.write('battery_checking_interval=' + self.entry5.get_text() + '\n')
             f.write('notification_stability=' + self.entry6.get_text() + '\n')
             f.close()
-            message = MessageDialogWindow('Successfully saved!')
-            message.show_info_message()
-            message.show_all()
+            dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
+                                    Gtk.ButtonsType.OK,
+                                    "Successfully Saved!")
+            dialog.format_secondary_text('You settings have been saved successfully.')
+            dialog.run()
+            print("Info dialog closed")
+            dialog.destroy()
 
 win = MainWindow()
 win.connect('delete_event', Gtk.main_quit)
