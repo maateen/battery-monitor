@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import subprocess
 import sys
 import time
@@ -69,8 +70,43 @@ class Notification:
         self.notifier.set_urgency(Notify.Urgency.CRITICAL)
         self.notifier.show()
 
+        # class variable
+        self.config_dir = os.path.expanduser('~/.config/battery-monitor')
+        self.config_file = os.path.join(self.config_dir, 'battery-monitor.txt')
+        self.very_low_battery = '10'
+        self.low_battery = '30'
+        self.first_custom_warning = ''
+        self.second_custom_warning = ''
+        self.third_custom_warning = ''
+        self.battery_checking_interval = '3'
+        self.notification_stability = '3'
+        self.load_config()
+
+    def load_config(self):
+        if os.path.exists(self.config_file):
+            with open(self.config_file, 'r') as f:
+                for line in f.readlines():
+                    line = line.strip('\n')
+                    field = line.split('=')
+                    if field[0] == 'very_low_battery':
+                        self.very_low_battery = field[1]
+                    elif field[0] == 'low_battery':
+                        self.low_battery = field[1]
+                    elif field[0] == 'first_custom_warning':
+                        self.first_custom_warning = field[1]
+                    elif field[0] == 'second_custom_warning':
+                        self.second_custom_warning = field[1]
+                    elif field[0] == 'third_custom_warning':
+                        self.third_custom_warning = field[1]
+                    elif field[0] == 'battery_checking_interval':
+                        self.battery_checking_interval = field[1]
+                    elif field[0] == 'notification_stability':
+                        self.notification_stability = field[1]
+        else:
+            print('Config file is missing.')
+
     def show_notification(self, type, battery_percentage,
-                          remaining_time=None, _time=5):
+                          remaining_time=None):
 
         message = MESSAGES[type]
         head = message[0]
@@ -79,7 +115,7 @@ class Notification:
         icon = ICONS[type]
         self.notifier.update(head, body, icon)
         self.notifier.show()
-        time.sleep(_time)
+        time.sleep(int(self.notification_stability))
         self.notifier.close()
 
     def show_specific_notifications(self, monitor):
@@ -93,7 +129,7 @@ class Notification:
         # Also Keep in memory which notification was showed last time
         if self.last_percentage != percentage and state != "charging":
             self.last_percentage = percentage
-            if percentage <= 10:
+            if percentage <= int(self.very_low_battery):
                 self.last_notification = "very_low_battery"
                 self.show_notification(type="very_low_battery",
                                        battery_percentage=percentage,
@@ -101,13 +137,37 @@ class Notification:
 
                 return "very_low_battery"
 
-            elif percentage == 30:
+            elif percentage == int(self.low_battery):
                 self.last_notification = "low_battery"
                 self.show_notification(type="low_battery",
                                        battery_percentage=percentage,
                                        remaining_time=remaining)
 
                 return "low_battery"
+
+            elif percentage == int(self.first_custom_warning):
+                self.last_notification = "first_custom_warning"
+                self.show_notification(type="first_custom_warning",
+                                       battery_percentage=percentage,
+                                       remaining_time=remaining)
+
+                return "first_custom_warning"
+
+            elif percentage == int(self.second_custom_warning):
+                self.last_notification = "second_custom_warning"
+                self.show_notification(type="second_custom_warning",
+                                       battery_percentage=percentage,
+                                       remaining_time=remaining)
+
+                return "second_custom_warning"
+
+            elif percentage == int(self.third_custom_warning):
+                self.last_notification = "third_custom_warning"
+                self.show_notification(type="third_custom_warning",
+                                       battery_percentage=percentage,
+                                       remaining_time=remaining)
+
+                return "third_custom_warning"
 
         # Show Notification only while state changes.
         # Notification should not be shown for each percentage change.
@@ -132,14 +192,14 @@ try:
 
     monitor = BatteryMonitor()
     notification = Notification("success")
-    time.sleep(3)
+    time.sleep(int(self.notification_stability))
     notification.show_specific_notifications(monitor)
 
     while True:
         if monitor.is_updated():
             notification.show_specific_notifications(monitor)
 
-        time.sleep(3)
+        time.sleep(int(self.battery_checking_interval))
 
 except KeyboardInterrupt:
     print("\nBattery Monitor has been exited successfully.")
