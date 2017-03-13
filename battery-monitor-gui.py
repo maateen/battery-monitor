@@ -3,11 +3,13 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+
 class MainWindow(Gtk.ApplicationWindow):
     """
     @description: This class displays the main window that the user will
     see when he wants to manage Battery Monitor
     """
+
     def __init__(self):
         Gtk.Window.__init__(self, title='Battery Monitor')
         self.set_default_size(800, 400)
@@ -142,13 +144,15 @@ class MainWindow(Gtk.ApplicationWindow):
             f.write('first_custom_warning=' + self.entry2.get_text() + '\n')
             f.write('second_custom_warning=' + self.entry3.get_text() + '\n')
             f.write('third_custom_warning=' + self.entry4.get_text() + '\n')
-            f.write('battery_checking_interval=' + self.entry5.get_text() + '\n')
+            f.write('battery_checking_interval=' +
+                    self.entry5.get_text() + '\n')
             f.write('notification_stability=' + self.entry6.get_text() + '\n')
             f.close()
             dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
-                                    Gtk.ButtonsType.OK,
-                                    "Successfully Saved!")
-            dialog.format_secondary_text('You settings have been saved successfully.')
+                                       Gtk.ButtonsType.OK,
+                                       "Successfully Saved!")
+            dialog.format_secondary_text(
+                'You settings have been saved successfully.')
             dialog.run()
             print("Info dialog closed")
             dialog.destroy()
