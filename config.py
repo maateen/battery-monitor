@@ -32,12 +32,12 @@ MESSAGES = {
         u"Charging",
         u"Now {battery_percentage} %, {remaining_time}"
     ),
-    
+
     "discharging": (
         u"Discharging",
         u"Now {battery_percentage} %, {remaining_time}"
     ),
-    
+
     "full": (
         u"Fully Charged",
         u"{battery_percentage} % Remaining"
