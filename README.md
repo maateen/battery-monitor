@@ -4,6 +4,7 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
 
  - [Dependencies](#dependencies)
  - [Installation](#installation)
+	 - [Common Method](#common-method)
 	 - [Ubuntu/Debian](#ubuntudebian)
  - [Configuration](#configuration)
  - [Issue Tracking](#issue-tracking)
@@ -28,6 +29,21 @@ To use **Battery Monitor** you need these dependencies installed on your PC.
 
 ## Installation
 
+### Common Method
+
+```
+wget https://github.com/maateen/battery-monitor/archive/master.zip
+```
+```
+unzip master.zip
+```
+```
+cd battery-monitor-master
+```
+```
+sudo make install
+```
+
 ### Ubuntu/Debian
 
 Let's install from PPA:
@@ -45,7 +61,7 @@ That's all. **Battery Monitor** is installed on your system.
 
 ## Configuration
 
-Every time, you will start/restart your PC, it will run automatically in background. But as it's your first time, let's start it by yourself. `battery-monitor` is the relevant command, you can use on Terminal to start the **Battery Monitor**. Surely, I have a different idea. Just press **alt+f2**, `battery-monitor` command in the box and press `enter`. That's all.
+Every time, you will start/restart your PC, it will run automatically in background. But as it's your first time, let's start it by yourself. Please, search for **Battery Monitor** launcher in your menu entries. Then simply click on it. You will get notified that **Battery Monitor** has started. If you want to adjusr settings for **Battery Monitor**, then simply search for **Battery Monitor GUI** in your menu entries. Then click on it and you will see a new window. Now adjust your settings and save it. Your adjustment will be in action after next reboot.
 
 ## Issue Tracking
 
@@ -73,16 +89,16 @@ If you find a bug, please open a new issue with details: [https://github.com/maa
 
 ![Critically Low Battery State](https://raw.githubusercontent.com/maateen/battery-monitor/master/docs/Screenshot_from_2016_07_23_03_09_54.png)
 
-## Roadmap
+## Changelog
 
-- [ ] Developing a GUI to manage the custom warning easily.
+### v0.5
+
+- [x] Developing a GUI to manage the custom warning easily.
 - [x] Minimizing CPU consumption.
 - [x] Adding Makefile for easy installation and upgradation
 - [x] Re-structuring the project
 
-## Changelog
-
-### v.04
+### v0.4
 
 - Reformatting the code in a new style.
 - Optimizing the code in a way so that Battery Monitor consumes a little resource of your PC.
@@ -111,3 +127,7 @@ If you find a bug, please open a new issue with details: [https://github.com/maa
 ### [Safwan Rahman](https://github.com/safwanrahman)
 
 One of the biggest contributor of **Battery Monitor**. He has reformated the code in a new style. The style represents the code easier to understand. Also he has optimized the code in a way that **Battery Monitor** consumes a little resource of your PC. Please take a minute to thank him.
+
+### [Abdelhak Bougouffa](https://abougouffa.github.io/)
+
+Another biggest contributor of **Battery Monitor**. He has fixed some bugs and optimized **Battery Monitor** in a way so that it consumes lower CPU and RAM than before. Please take a minute to thank him.
