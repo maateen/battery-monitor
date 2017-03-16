@@ -127,12 +127,30 @@ class MainWindow(Gtk.ApplicationWindow):
         else:
             os.makedirs(self.config_dir)
         with open(self.config_file, 'w') as f:
-            f.write('very_low_battery=' + self.entry0.get_text() + '\n')
-            f.write('low_battery=' + self.entry1.get_text() + '\n')
-            f.write('first_custom_warning=' + self.entry2.get_text() + '\n')
-            f.write('second_custom_warning=' + self.entry3.get_text() + '\n')
-            f.write('third_custom_warning=' + self.entry4.get_text() + '\n')
-            f.write('notification_stability=' + self.entry6.get_text() + '\n')
+            try:
+                f.write('very_low_battery=' + self.entry0.get_text() + '\n')
+            except AttributeError:
+                f.write('very_low_battery=\n')
+            try:
+                f.write('low_battery=' + self.entry1.get_text() + '\n')
+            except AttributeError:
+                f.write('low_battery=\n')
+            try:
+                f.write('first_custom_warning=' + self.entry2.get_text() + '\n')
+            except AttributeError:
+                f.write('first_custom_warning=\n')
+            try:
+                f.write('second_custom_warning=' + self.entry3.get_text() + '\n')
+            except AttributeError:
+                f.write('second_custom_warning=\n')
+            try:
+                f.write('third_custom_warning=' + self.entry4.get_text() + '\n')
+            except AttributeError:
+                f.write('third_custom_warning=\n')
+            try:
+                f.write('notification_stability=' + self.entry6.get_text() + '\n')
+            except AttributeError:
+                f.write('notification_stability=\n')
             f.close()
             dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
                                        Gtk.ButtonsType.OK,

@@ -75,9 +75,9 @@ class Notification:
         self.config_file = os.path.join(self.config_dir, 'battery-monitor.txt')
         self.very_low_battery = '10'
         self.low_battery = '30'
-        self.first_custom_warning = ''
-        self.second_custom_warning = ''
-        self.third_custom_warning = ''
+        self.first_custom_warning = '-1'
+        self.second_custom_warning = '-2'
+        self.third_custom_warning = '-3'
         self.notification_stability = '5'
         self.load_config()
 
@@ -88,17 +88,35 @@ class Notification:
                     line = line.strip('\n')
                     field = line.split('=')
                     if field[0] == 'very_low_battery':
-                        self.very_low_battery = field[1]
+                        if not field[1]:
+                            self.very_low_battery = '10'
+                        else:
+                            self.very_low_battery = field[1]
                     elif field[0] == 'low_battery':
-                        self.low_battery = field[1]
+                        if not field[1]:
+                            self.low_battery = '30'
+                        else:
+                            self.low_battery = field[1]
                     elif field[0] == 'first_custom_warning':
-                        self.first_custom_warning = field[1]
+                        if not field[1]:
+                            self.first_custom_warning = '-1'
+                        else:
+                            self.first_custom_warning = field[1]
                     elif field[0] == 'second_custom_warning':
-                        self.second_custom_warning = field[1]
+                        if not field[1]:
+                            self.second_custom_warning = '-2'
+                        else:
+                            self.second_custom_warning = field[1]
                     elif field[0] == 'third_custom_warning':
-                        self.third_custom_warning = field[1]
+                        if not field[1]:
+                            self.third_custom_warning = '-3'
+                        else:
+                            self.third_custom_warning = field[1]
                     elif field[0] == 'notification_stability':
-                        self.notification_stability = field[1]
+                        if not field[1]:
+                            self.notification_stability = '5'
+                        else:
+                            self.notification_stability = field[1]
         else:
             print('Config file is missing.')
 
