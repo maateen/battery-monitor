@@ -117,6 +117,11 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 
 ## Changelog
 
+### v0.5.1
+
+- [x] Fixed [issue #35](https://github.com/maateen/battery-monitor/issues/35)
+- [x] Fixed [issue #39](https://github.com/maateen/battery-monitor/issues/39)
+
 ### v0.5
 
 - [x] Developing a GUI to manage the custom warning easily.
@@ -132,9 +137,9 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 
 ### v0.3
 
-- [x] Fixing [issue #7](https://github.com/maateen/battery-monitor/issues/7), decreasing CPU consuming from 40% to below 0.7%
-- [x] Fixing [issue #4](https://github.com/maateen/battery-monitor/issues/4), Adding warning at 30% battery life (temporary solution, will be replaced by a GUI in near future)
-- [x] Fixing [issue #6](https://github.com/maateen/battery-monitor/issues/6), Adding an entry in dash.
+- [x] Fixed [issue #7](https://github.com/maateen/battery-monitor/issues/7), decreasing CPU consuming from 40% to below 0.7%
+- [x] Fixed [issue #4](https://github.com/maateen/battery-monitor/issues/4), Adding warning at 30% battery life (temporary solution, will be replaced by a GUI in near future)
+- [x] Fixed [issue #6](https://github.com/maateen/battery-monitor/issues/6), Adding an entry in dash.
 
 ### v0.2.1
 
@@ -147,7 +152,7 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 
 ### v0.1
 
-- Initial release.
+- [x] Initial release.
 
 ## Contributors
 
