@@ -1,5 +1,6 @@
 import os
 import gi
+import configparser
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -23,12 +24,7 @@ class MainWindow(Gtk.ApplicationWindow):
         # class variable
         self.config_dir = os.path.expanduser('~/.config/battery-monitor')
         self.config_file = os.path.join(self.config_dir, 'battery-monitor.txt')
-        self.very_low_battery = '10'
-        self.low_battery = '30'
-        self.first_custom_warning = ''
-        self.second_custom_warning = ''
-        self.third_custom_warning = ''
-        self.notification_stability = '5'
+        self.config = configparser.ConfigParser()
         self.load_config()
 
         label0 = Gtk.Label('Very Low Battery Warning at')
@@ -101,57 +97,38 @@ class MainWindow(Gtk.ApplicationWindow):
         grid.attach(save_button, 9, 7, 1, 1)
 
     def load_config(self):
-        if os.path.exists(self.config_file):
-            with open(self.config_file, 'r') as f:
-                for line in f.readlines():
-                    line = line.strip('\n')
-                    field = line.split('=')
-                    if field[0] == 'very_low_battery':
-                        self.very_low_battery = field[1]
-                    elif field[0] == 'low_battery':
-                        self.low_battery = field[1]
-                    elif field[0] == 'first_custom_warning':
-                        self.first_custom_warning = field[1]
-                    elif field[0] == 'second_custom_warning':
-                        self.second_custom_warning = field[1]
-                    elif field[0] == 'third_custom_warning':
-                        self.third_custom_warning = field[1]
-                    elif field[0] == 'notification_stability':
-                        self.notification_stability = field[1]
-        else:
-            print('Config file is missing.')
+        try:
+            self.config.read(self.config_file)
+            self.very_low_battery = self.config['settings']['very_low_battery']
+            self.low_battery = self.config['settings']['low_battery']
+            self.first_custom_warning = self.config['settings']['first_custom_warning']
+            self.second_custom_warning = self.config['settings']['second_custom_warning']
+            self.third_custom_warning = self.config['settings']['third_custom_warning']
+            self.notification_stability = self.config['settings']['notification_stability']
+        except:
+            print('Config file is missing or not readable. Using defaults!')
+            self.very_low_battery = '10'
+            self.low_battery = '30'
+            self.first_custom_warning = ''
+            self.second_custom_warning = ''
+            self.third_custom_warning = ''
+            self.notification_stability = '5'
 
     def save_config(self, widget):
         if os.path.exists(self.config_dir):
             pass
         else:
             os.makedirs(self.config_dir)
+        self.config['settings'] = {
+            'very_low_battery': self.entry0.get_text(),
+            'low_battery': self.entry1.get_text(),
+            'first_custom_warning': self.entry2.get_text(),
+            'second_custom_warning': self.entry3.get_text(),
+            'third_custom_warning': self.entry4.get_text(),
+            'notification_stability': self.entry5.get_text()
+        }
         with open(self.config_file, 'w') as f:
-            try:
-                f.write('very_low_battery=' + self.entry0.get_text() + '\n')
-            except AttributeError:
-                f.write('very_low_battery=\n')
-            try:
-                f.write('low_battery=' + self.entry1.get_text() + '\n')
-            except AttributeError:
-                f.write('low_battery=\n')
-            try:
-                f.write('first_custom_warning=' + self.entry2.get_text() + '\n')
-            except AttributeError:
-                f.write('first_custom_warning=\n')
-            try:
-                f.write('second_custom_warning=' + self.entry3.get_text() + '\n')
-            except AttributeError:
-                f.write('second_custom_warning=\n')
-            try:
-                f.write('third_custom_warning=' + self.entry4.get_text() + '\n')
-            except AttributeError:
-                f.write('third_custom_warning=\n')
-            try:
-                f.write('notification_stability=' + self.entry6.get_text() + '\n')
-            except AttributeError:
-                f.write('notification_stability=\n')
-            f.close()
+            self.config.write(f)
             dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
                                        Gtk.ButtonsType.OK,
                                        "Successfully Saved!")

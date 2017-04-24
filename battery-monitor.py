@@ -4,19 +4,14 @@ import os
 import subprocess
 import sys
 import time
+import configparser
 
 import gi
 
 gi.require_version('Notify', '0.7')
 from gi.repository import Notify
 
-try:
-    # Python 3.x
-    from .config import ICONS, MESSAGES
-except:
-    # Python 2.x
-    from config import ICONS, MESSAGES
-
+from .config import ICONS, MESSAGES
 
 class BatteryMonitor:
     raw_battery_info = ''
@@ -73,52 +68,26 @@ class Notification:
         # class variable
         self.config_dir = os.path.expanduser('~/.config/battery-monitor')
         self.config_file = os.path.join(self.config_dir, 'battery-monitor.txt')
-        self.very_low_battery = '10'
-        self.low_battery = '30'
-        self.first_custom_warning = '-1'
-        self.second_custom_warning = '-2'
-        self.third_custom_warning = '-3'
-        self.notification_stability = '5'
+        self.config = configparser.ConfigParser()
         self.load_config()
 
     def load_config(self):
-        if os.path.exists(self.config_file):
-            with open(self.config_file, 'r') as f:
-                for line in f.readlines():
-                    line = line.strip('\n')
-                    field = line.split('=')
-                    if field[0] == 'very_low_battery':
-                        if not field[1]:
-                            self.very_low_battery = '10'
-                        else:
-                            self.very_low_battery = field[1]
-                    elif field[0] == 'low_battery':
-                        if not field[1]:
-                            self.low_battery = '30'
-                        else:
-                            self.low_battery = field[1]
-                    elif field[0] == 'first_custom_warning':
-                        if not field[1]:
-                            self.first_custom_warning = '-1'
-                        else:
-                            self.first_custom_warning = field[1]
-                    elif field[0] == 'second_custom_warning':
-                        if not field[1]:
-                            self.second_custom_warning = '-2'
-                        else:
-                            self.second_custom_warning = field[1]
-                    elif field[0] == 'third_custom_warning':
-                        if not field[1]:
-                            self.third_custom_warning = '-3'
-                        else:
-                            self.third_custom_warning = field[1]
-                    elif field[0] == 'notification_stability':
-                        if not field[1]:
-                            self.notification_stability = '5'
-                        else:
-                            self.notification_stability = field[1]
-        else:
-            print('Config file is missing.')
+        try:
+            self.config.read(self.config_file)
+            self.very_low_battery = self.config['settings']['very_low_battery']
+            self.low_battery = self.config['settings']['low_battery']
+            self.first_custom_warning = self.config['settings']['first_custom_warning']
+            self.second_custom_warning = self.config['settings']['second_custom_warning']
+            self.third_custom_warning = self.config['settings']['third_custom_warning']
+            self.notification_stability = self.config['settings']['notification_stability']
+        except:
+            print('Config file is missing or not readable. Using defaults!')
+            self.very_low_battery = '10'
+            self.low_battery = '30'
+            self.first_custom_warning = ''
+            self.second_custom_warning = ''
+            self.third_custom_warning = ''
+            self.notification_stability = '5'
 
     def show_notification(self, type, battery_percentage,
                           remaining_time=None, _time=5):
