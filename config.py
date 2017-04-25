@@ -12,6 +12,9 @@ ICONS = {
     "unknown":  "not-charging.png",
     "very_low_battery": "low-battery.png",
     "low_battery": "low-battery.png",
+    "first_custom_warning": "discharging.png",
+    "second_custom_warning": "discharging.png",
+    "third_custom_warning": "discharging.png",
 }
 
 for key in ICONS:
@@ -55,6 +58,21 @@ MESSAGES = {
 
     "low_battery": (
         u"Low Battery",
+        u"Now {battery_percentage} %, {remaining_time}"
+    ),
+
+    "first_custom_warning": (
+        u"First Custom Warning",
+        u"Now {battery_percentage} %, {remaining_time}"
+    ),
+
+    "second_custom_warning": (
+        u"Second Custom Warning",
+        u"Now {battery_percentage} %, {remaining_time}"
+    ),
+
+    "third_custom_warning": (
+        u"Third Custom Warning",
         u"Now {battery_percentage} %, {remaining_time}"
     ),
 }

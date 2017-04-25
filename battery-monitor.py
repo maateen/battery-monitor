@@ -149,7 +149,7 @@ class Notification:
 
                 return "very_low_battery"
 
-            elif percentage == self.low_battery:
+            elif percentage <= self.low_battery:
                 self.last_notification = "low_battery"
                 self.show_notification(type="low_battery",
                                        battery_percentage=percentage,
@@ -157,7 +157,7 @@ class Notification:
 
                 return "low_battery"
 
-            elif percentage == self.first_custom_warning:
+            elif percentage <= self.first_custom_warning:
                 self.last_notification = "first_custom_warning"
                 self.show_notification(type="first_custom_warning",
                                        battery_percentage=percentage,
@@ -165,7 +165,7 @@ class Notification:
 
                 return "first_custom_warning"
 
-            elif percentage == self.second_custom_warning:
+            elif percentage <= self.second_custom_warning:
                 self.last_notification = "second_custom_warning"
                 self.show_notification(type="second_custom_warning",
                                        battery_percentage=percentage,
@@ -173,7 +173,7 @@ class Notification:
 
                 return "second_custom_warning"
 
-            elif percentage == self.third_custom_warning:
+            elif percentage <= self.third_custom_warning:
                 self.last_notification = "third_custom_warning"
                 self.show_notification(type="third_custom_warning",
                                        battery_percentage=percentage,
