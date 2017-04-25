@@ -7,6 +7,7 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
 	 - [Common Method](#common-method)
 	 - [For Ubuntu and its derivatives](#for-ubuntu-and-its-derivatives)
 	 - [For Beta Testers](#for-beta-testers)
+	 - [For Developers](#for-developers)
  - [Configuration](#configuration)
  - [Issue Tracking](#issue-tracking)
  - [Screenshots](#screenshots)
