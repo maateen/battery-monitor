@@ -130,13 +130,16 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 
 ## Changelog
 
-### v0.5.1
+### v0.5.2
 
 - [x] Fixed [issue #41](https://github.com/maateen/battery-monitor/issues/41)
 - [x] Fixed [issue #42](https://github.com/maateen/battery-monitor/issues/42)
+- [x] Introduced a Test feature for developers.
+
+### v0.5.1
+
 - [x] Fixed [issue #35](https://github.com/maateen/battery-monitor/issues/35)
 - [x] Fixed [issue #39](https://github.com/maateen/battery-monitor/issues/39)
-- [x] Introduced a Test feature for developers.
 
 ### v0.5
 
