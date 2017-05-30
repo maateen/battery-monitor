@@ -49,7 +49,7 @@ That's all. **Battery Monitor Stable** is installed on your system.
 
 ### For Ubuntu and its derivatives
 
-Let's install from PPA (currently supported: **14.04**, **16.04**, **16.10** & **17.04**):
+Let's install from PPA (currently supported: **14.04**, **16.04**, **16.10**, **17.04** & **17.10**):
 
 ```
 sudo add-apt-repository ppa:maateen/battery-monitor -y
@@ -92,7 +92,7 @@ battery-monitor --test
 
 ## Configuration
 
-Every time, you will start/restart your PC, it will run automatically in background. But as it's your first time, let's start it by yourself. Please, search for **Battery Monitor** launcher in your menu entries. Then simply click on it. You will get notified that **Battery Monitor** has started. 
+Every time, you will start/restart your PC, it will run automatically in background. But as it's your first time, let's start it by yourself. Please, search for **Battery Monitor** launcher in your menu entries. Then simply click on it. You will get notified that **Battery Monitor** has started.
 
 If you want to adjust settings for **Battery Monitor**, then simply search for **Battery Monitor GUI** in your menu entries. Then click on it and you will see a new window. Now adjust your settings and save it. Your adjustment will be in action after next reboot.
 
@@ -133,7 +133,7 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 ### v0.5.3
 
 - [x] Fixed [issue #45](https://github.com/maateen/battery-monitor/issues/45)
--  [x] Support for Ubuntu 17.10 has been added.
+- [x] Support for Ubuntu 17.10 has been added.
 
 ### v0.5.2
 
