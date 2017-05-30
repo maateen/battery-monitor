@@ -133,6 +133,7 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 ### v0.5.3
 
 - [x] Fixed [issue #45](https://github.com/maateen/battery-monitor/issues/45)
+-  [x] Support for Ubuntu 17.10 has been added.
 
 ### v0.5.2
 
