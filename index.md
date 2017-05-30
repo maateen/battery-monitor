@@ -5,7 +5,9 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
  - [Dependencies](#dependencies)
  - [Installation](#installation)
 	 - [Common Method](#common-method)
-	 - [Ubuntu/Debian](#ubuntudebian)
+	 - [For Ubuntu and its derivatives](#for-ubuntu-and-its-derivatives)
+	 - [For Beta Testers](#for-beta-testers)
+	 - [For Developers](#for-developers)
  - [Configuration](#configuration)
  - [Issue Tracking](#issue-tracking)
  - [Screenshots](#screenshots)
@@ -47,7 +49,7 @@ That's all. **Battery Monitor Stable** is installed on your system.
 
 ### For Ubuntu and its derivatives
 
-Let's install from PPA (currently supported: **14.04**, **16.04**, **16.10** & **17.04**):
+Let's install from PPA (currently supported: **14.04**, **16.04**, **16.10**, **17.04** & **17.10**):
 
 ```
 sudo add-apt-repository ppa:maateen/battery-monitor -y
@@ -76,9 +78,21 @@ sudo make install
 ```
 That's all. **Battery Monitor Beta** is installed on your system. 
 
+### For Developers
+Now you can automatically test **Battery Monitor** from Terminal:
+
+```
+python3 battery-monitor.py --test
+```
+Or, if you've already installed:
+
+```
+battery-monitor --test
+```
+
 ## Configuration
 
-Every time, you will start/restart your PC, it will run automatically in background. But as it's your first time, let's start it by yourself. Please, search for **Battery Monitor** launcher in your menu entries. Then simply click on it. You will get notified that **Battery Monitor** has started. 
+Every time, you will start/restart your PC, it will run automatically in background. But as it's your first time, let's start it by yourself. Please, search for **Battery Monitor** launcher in your menu entries. Then simply click on it. You will get notified that **Battery Monitor** has started.
 
 If you want to adjust settings for **Battery Monitor**, then simply search for **Battery Monitor GUI** in your menu entries. Then click on it and you will see a new window. Now adjust your settings and save it. Your adjustment will be in action after next reboot.
 
@@ -116,37 +130,53 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 
 ## Changelog
 
+### v0.5.3
+
+- [x] Fixed [issue #45](https://github.com/maateen/battery-monitor/issues/45)
+- [x] Support for Ubuntu 17.10 has been added.
+
+### v0.5.2
+
+- [x] Fixed [issue #41](https://github.com/maateen/battery-monitor/issues/41)
+- [x] Fixed [issue #42](https://github.com/maateen/battery-monitor/issues/42)
+- [x] Introduced a Test feature for developers.
+
+### v0.5.1
+
+- [x] Fixed [issue #35](https://github.com/maateen/battery-monitor/issues/35)
+- [x] Fixed [issue #39](https://github.com/maateen/battery-monitor/issues/39)
+
 ### v0.5
 
-- [x] Developing a GUI to manage the custom warning easily.
-- [x] Minimizing CPU consumption.
-- [x] Adding Makefile for easy installation and upgradation
-- [x] Re-structuring the project
+- [x] Developed a GUI to manage the custom warning easily.
+- [x] Minimized CPU consumption.
+- [x] Added Makefile for easy installation and upgradation.
+- [x] Re-structured the project.
 -  [x] Support for Ubuntu 14.04, 16.04, 16.10 and 17.04 has been added.
 
 ### v0.4
 
-- [x] Reformatting the code in a new style.
-- [x] Optimizing the code in a way so that Battery Monitor consumes a little resource of your PC.
+- [x] Reformatted the code in a new style.
+- [x] Optimized the code in a way so that Battery Monitor consumes a little resource of your PC.
 
 ### v0.3
 
-- [x] Fixing [issue #7](https://github.com/maateen/battery-monitor/issues/7), decreasing CPU consuming from 40% to below 0.7%
-- [x] Fixing [issue #4](https://github.com/maateen/battery-monitor/issues/4), Adding warning at 30% battery life (temporary solution, will be replaced by a GUI in near future)
-- [x] Fixing [issue #6](https://github.com/maateen/battery-monitor/issues/6), Adding an entry in dash.
+- [x] Fixed [issue #7](https://github.com/maateen/battery-monitor/issues/7), decreased CPU consuming from 40% to below 0.7%
+- [x] Fixed [issue #4](https://github.com/maateen/battery-monitor/issues/4), Added warning at 30% battery life (temporary solution, will be replaced by a GUI in near future).
+- [x] Fixed [issue #6](https://github.com/maateen/battery-monitor/issues/6), Added an entry in dash.
 
 ### v0.2.1
 
-- [x] Adding trusty support.
+- [x] Added trusty support.
 
 ### v0.2
 
-- [x] Adding **Critically Low Battery** warning when battery is below 10%.
-- [x] Adding `ctrl+C` pressing support to stop the `battery-monitor` command on terminal.
+- [x] Added **Critically Low Battery** warning when battery is below 10%.
+- [x] Added `ctrl+C` pressing support to stop the `battery-monitor` command on terminal.
 
 ### v0.1
 
-- Initial release.
+- [x] Initial release.
 
 ## Contributors
 
