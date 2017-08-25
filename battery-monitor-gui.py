@@ -1,9 +1,16 @@
+#!/usr/bin/env python3
+
 import os
+import signal
 import gi
 import configparser
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+gi.require_version('AppIndicator3', '0.1')
+from gi.repository import AppIndicator3
+
+INDICATOR_ID = 'batterymonitor'
 
 class MainWindow(Gtk.ApplicationWindow):
     """
@@ -138,7 +145,24 @@ class MainWindow(Gtk.ApplicationWindow):
             print("Info dialog closed")
             dialog.destroy()
 
+
+indicator = AppIndicator3.Indicator.new(INDICATOR_ID, os.path.abspath('icons/icon.png'), AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
+indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
+
 win = MainWindow()
 win.connect('delete_event', Gtk.main_quit)
 win.show_all()
+
+
+menu = Gtk.Menu()
+show_item = Gtk.MenuItem('Show/Hide')
+# show_item.connect('activate', some_function)
+quit_item = Gtk.MenuItem('Quit')
+quit_item.connect('activate', Gtk.main_quit)
+
+menu.append(show_item)
+menu.append(quit_item)
+menu.show_all()
+indicator.set_menu(menu)
+
 Gtk.main()
