@@ -1,83 +1,45 @@
 #!/usr/bin/env python3
 
-import os
-import subprocess
-import sys
-import time
-import random
+# standard library
 import configparser
+import os
+import time
 
+# third-party library
 import gi
-
 gi.require_version('Notify', '0.7')
 from gi.repository import Notify
 
-from config import ICONS, MESSAGES
+# imports from current project
+from config import ICONS
+from config import MESSAGES
 
-class BatteryMonitor:
-    raw_battery_info = ''
-    processed_battery_info = {}
-
-    def __init__(self, TEST_MODE):
-        self.TEST_MODE = TEST_MODE
-        self.raw_battery_info = self.get_raw_battery_info()
-        self.get_processed_battery_info()
-
-    def get_raw_battery_info(self):
-        if self.TEST_MODE:
-            state = random.choice(['Charging', 'Discharging'])
-            percentage = str(random.randint(0, 100))
-            remaining = random.choice(['03:24:25 remaining', 'discharging at zero rate - will never fully discharge'])
-            result = "Battery 0: " + state + ", " + percentage + "%, " + remaining
-            print(result)
-            return result.encode('UTF-8')
-        else:
-            command = "acpi -b"
-            raw_info = subprocess.check_output(command,
-                                            stderr=subprocess.PIPE,
-                                            shell=True)
-        return raw_info
-
-    def is_updated(self):
-        current_raw_info = self.get_raw_battery_info()
-
-        if self.raw_battery_info != current_raw_info:
-            self.raw_battery_info = current_raw_info
-            return True
-
-        return False
-
-    def get_processed_battery_info(self):
-        in_list = (self.raw_battery_info.decode("utf-8", "strict").lower().strip('\n')
-                   .split(": ", 1)[1].split(", "))
-
-        self.processed_battery_info["state"] = in_list[0]
-        self.processed_battery_info["percentage"] = in_list[1]
-        try:
-            self.processed_battery_info["remaining"] = in_list[2]
-        except IndexError:
-            pass
-
-        return self.processed_battery_info
 
 
 class Notification:
-    last_notification = None
-    last_percentage = None
+    """Triggers notification on battery state changes.
 
-    def __init__(self, type):
+    Triggers informative and effective notification on every change of battery state.
+    """
+
+    last_notification: str
+    last_percentage: int
+
+    def __init__(self, type: str) -> None:
         Notify.init("Battery Monitor")
         message = MESSAGES[type]
         head = message[0]
         body = message[1]
         icon = ICONS[type]
+        self.last_notification = ''
+        self.last_percentage = 0
         self.notifier = Notify.Notification.new(head, body, icon)
         self.notifier.set_urgency(Notify.Urgency.CRITICAL)
         self.notifier.show()
 
         # class variable
         self.config_dir = os.path.expanduser('~/.config/battery-monitor')
-        self.config_file = os.path.join(self.config_dir, 'battery-monitor.txt')
+        self.config_file = os.path.join(self.config_dir, 'battery-monitor.cfg')
         self.config = configparser.ConfigParser()
         self.load_config()
 
@@ -117,8 +79,8 @@ class Notification:
             self.third_custom_warning = -3
             self.notification_stability = 5
 
-    def show_notification(self, type, battery_percentage,
-                          remaining_time=None, _time=5):
+    def show_notification(self, type: str, battery_percentage: int,
+                          remaining_time: str = None, _time: int = 5) -> None:
 
         message = MESSAGES[type]
         head = message[0]
@@ -197,36 +159,3 @@ class Notification:
     def __del__(self):
         self.notifier.close()
         Notify.uninit()
-
-
-try:
-    print("Press 'ctrl+C' to exit.")
-
-    # checking Test Mode enabled or not
-    try:
-        if sys.argv[1] == '--test':
-            TEST_MODE = True
-        else:
-            TEST_MODE = False
-    except IndexError:
-        TEST_MODE = False
-
-    monitor = BatteryMonitor(TEST_MODE)
-    notification = Notification("success")
-    time.sleep(3)
-    notification.show_specific_notifications(monitor)
-
-    while True:
-        if monitor.is_updated():
-            notification.show_specific_notifications(monitor)
-
-        time.sleep(3)
-
-except KeyboardInterrupt:
-    print("\nBattery Monitor has been exited successfully.")
-    del notification
-    sys.exit(0)
-
-except subprocess.CalledProcessError:
-    notification = Notification("fail")
-    del notification

@@ -1,9 +1,14 @@
+#!/usr/bin/env python3
+
 import os
 
 _path = os.path.dirname(os.path.abspath(__file__))
 _icon_path = _path + '/icons/'
 
+CONFIG_FILE = '~/.config/battery-monitor/battery-monitor.cfg'
+
 ICONS = {
+    "app": "icon.png",
     "success": "icon.png",
     "fail": "icon.png",
     "charging": "charging.png",
@@ -76,4 +81,3 @@ MESSAGES = {
         u"Now {battery_percentage} %, {remaining_time}"
     ),
 }
-
