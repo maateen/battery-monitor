@@ -45,7 +45,7 @@ cd battery-monitor-master
 ```
 sudo make install
 ```
-That's all. **Battery Monitor Stable** is installed on your system. 
+That's all. **Battery Monitor Stable** is installed on your system.
 
 ### For Ubuntu and its derivatives
 
@@ -60,7 +60,7 @@ sudo apt-get update
 ```
 sudo apt-get install battery-monitor -y
 ```
-That's all. **Battery Monitor Stable** is installed on your system. 
+That's all. **Battery Monitor Stable** is installed on your system.
 
 ### For Beta Testers
 
@@ -76,13 +76,13 @@ cd battery-monitor-devel
 ```
 sudo make install
 ```
-That's all. **Battery Monitor Beta** is installed on your system. 
+That's all. **Battery Monitor Beta** is installed on your system.
 
 ### For Developers
 Now you can automatically test **Battery Monitor** from Terminal:
 
 ```
-python3 battery-monitor.py --test
+python3 run.py --test
 ```
 Or, if you've already installed:
 
