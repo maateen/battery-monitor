@@ -1,34 +1,32 @@
 #!/usr/bin/env python3
 
-import gi
+# standard library
 import configparser
+import os
+
+# third-party library
+import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-gi.require_version('AppIndicator3', '0.1')
-from gi.repository import AppIndicator3
+from config import CONFIG_FILE, ICONS
 
-INDICATOR_ID = 'batterymonitor'
 
 class MainWindow(Gtk.ApplicationWindow):
-    """
-    @description: This class displays the main window that the user will
+    """Main class for the GUI.
+
+    This class displays the main window that the user will
     see when he wants to manage Battery Monitor
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         Gtk.Window.__init__(self, title='Battery Monitor')
         self.set_default_size(800, 400)
         self.set_resizable(True)
         self.set_border_width(0)
         self.get_focus()
         self.set_position(Gtk.WindowPosition.CENTER)
-        path = os.path.dirname(os.path.abspath(__file__))
-        self.set_default_icon_from_file(os.path.join(path, 'icons/icon.png'))
-
-        # class variable
-        self.config_dir = os.path.expanduser('~/.config/battery-monitor')
-        self.config_file = os.path.join(self.config_dir, 'battery-monitor.txt')
+        self.set_default_icon_from_file(ICONS['app'])
         self.config = configparser.ConfigParser()
         self.load_config()
 
@@ -102,6 +100,11 @@ class MainWindow(Gtk.ApplicationWindow):
         grid.attach(save_button, 9, 7, 1, 1)
 
     def load_config(self):
+        """Loads configurations from config file.
+
+        Tries to read and parse from config file. If the config file is missing or not readable, then it triggers default configurations.
+        """
+
         try:
             self.config.read(self.config_file)
             self.very_low_battery = self.config['settings']['very_low_battery']
@@ -111,7 +114,7 @@ class MainWindow(Gtk.ApplicationWindow):
             self.third_custom_warning = self.config['settings']['third_custom_warning']
             self.notification_stability = self.config['settings']['notification_stability']
         except:
-            print('Config file is missing or not readable. Using defaults!')
+            print('Config file is missing or not readable. Using default configurations.')
             self.very_low_battery = '10'
             self.low_battery = '30'
             self.first_custom_warning = ''
@@ -120,6 +123,11 @@ class MainWindow(Gtk.ApplicationWindow):
             self.notification_stability = '5'
 
     def save_config(self, widget):
+        """Saves configurations to config file.
+
+        Saves user-defined configurations to config file. If the config file does not exist, it creates a new config file (~/.config/battery-monitor/battery-monitor.cfg) in user's home directory.
+        """
+
         if os.path.exists(self.config_dir):
             pass
         else:
@@ -142,25 +150,3 @@ class MainWindow(Gtk.ApplicationWindow):
             dialog.run()
             print("Info dialog closed")
             dialog.destroy()
-
-
-indicator = AppIndicator3.Indicator.new(INDICATOR_ID, os.path.abspath('icons/icon.png'), AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
-indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-
-win = MainWindow()
-win.connect('delete_event', Gtk.main_quit)
-win.show_all()
-
-
-menu = Gtk.Menu()
-show_item = Gtk.MenuItem('Show/Hide')
-# show_item.connect('activate', some_function)
-quit_item = Gtk.MenuItem('Quit')
-quit_item.connect('activate', Gtk.main_quit)
-
-menu.append(show_item)
-menu.append(quit_item)
-menu.show_all()
-indicator.set_menu(menu)
-
-Gtk.main()
