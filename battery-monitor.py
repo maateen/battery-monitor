@@ -48,7 +48,7 @@ class BatteryMonitor:
         return False
 
     def get_processed_battery_info(self):
-        in_list = (self.raw_battery_info.decode("utf-8", "strict").lower().strip('\n')
+        in_list = (self.raw_battery_info.decode("utf-8", "strict").lower().split('\n')[0]
                    .split(": ", 1)[1].split(", "))
 
         self.processed_battery_info["state"] = in_list[0]
