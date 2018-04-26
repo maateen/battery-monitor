@@ -47,9 +47,9 @@ class Notification:
         try:
             self.config.read(self.config_file)
             try:
-                self.very_low_battery = int(self.config['settings']['very_low_battery'])
+                self.critical_battery = int(self.config['settings']['critical_battery'])
             except ValueError:
-                self.very_low_battery = 10
+                self.critical_battery = 10
             try:
                 self.low_battery = int(self.config['settings']['low_battery'])
             except ValueError:
@@ -72,7 +72,7 @@ class Notification:
                 self.notification_stability = 5
         except:
             print('Config file is missing or not readable. Using defaults!')
-            self.very_low_battery = 10
+            self.critical_battery = 10
             self.low_battery = 30
             self.first_custom_warning = -1
             self.second_custom_warning = -2
@@ -103,13 +103,13 @@ class Notification:
         # Also Keep in memory which notification was showed last time
         if self.last_percentage != percentage and state != "charging":
             self.last_percentage = percentage
-            if percentage <= self.very_low_battery:
-                self.last_notification = "very_low_battery"
-                self.show_notification(type="very_low_battery",
+            if percentage <= self.critical_battery:
+                self.last_notification = "critical_battery"
+                self.show_notification(type="critical_battery",
                                        battery_percentage=percentage,
                                        remaining_time=remaining)
 
-                return "very_low_battery"
+                return "critical_battery"
 
             elif percentage <= self.low_battery:
                 self.last_notification = "low_battery"

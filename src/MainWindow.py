@@ -56,7 +56,7 @@ class MainWindow(Gtk.ApplicationWindow):
         label5.set_hexpand(True)
 
         self.entry0 = Gtk.Entry()
-        self.entry0.set_text(str(self.very_low_battery))
+        self.entry0.set_text(str(self.critical_battery))
         self.entry0.set_tooltip_text('Set in percentage')
         self.entry1 = Gtk.Entry()
         self.entry1.set_text(str(self.low_battery))
@@ -107,7 +107,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
         try:
             self.config.read(self.config_file)
-            self.very_low_battery = self.config['settings']['very_low_battery']
+            self.critical_battery = self.config['settings']['critical_battery']
             self.low_battery = self.config['settings']['low_battery']
             self.first_custom_warning = self.config['settings']['first_custom_warning']
             self.second_custom_warning = self.config['settings']['second_custom_warning']
@@ -115,7 +115,7 @@ class MainWindow(Gtk.ApplicationWindow):
             self.notification_stability = self.config['settings']['notification_stability']
         except:
             print('Config file is missing or not readable. Using default configurations.')
-            self.very_low_battery = '10'
+            self.critical_battery = '10'
             self.low_battery = '30'
             self.first_custom_warning = ''
             self.second_custom_warning = ''
@@ -133,7 +133,7 @@ class MainWindow(Gtk.ApplicationWindow):
         else:
             os.makedirs(self.config_dir)
         self.config['settings'] = {
-            'very_low_battery': self.entry0.get_text(),
+            'critical_battery': self.entry0.get_text(),
             'low_battery': self.entry1.get_text(),
             'third_custom_warning': self.entry2.get_text(),
             'second_custom_warning': self.entry3.get_text(),

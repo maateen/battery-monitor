@@ -15,8 +15,8 @@ ICONS = {
     "discharging": "discharging.png",
     "full":  "not-charging.png",
     "unknown":  "not-charging.png",
-    "very_low_battery": "low-battery.png",
     "low_battery": "low-battery.png",
+    "critical_battery": "critical-battery.png",
     "first_custom_warning": "discharging.png",
     "second_custom_warning": "discharging.png",
     "third_custom_warning": "discharging.png",
@@ -56,7 +56,7 @@ MESSAGES = {
         u"{battery_percentage} % Remaining"
     ),
 
-    "very_low_battery": (
+    "critical_battery": (
         u"Critically Low Battery",
         u"Only {battery_percentage} %, {remaining_time}"
     ),
