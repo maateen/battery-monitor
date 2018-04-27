@@ -9,7 +9,10 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-from config import CONFIG_FILE, ICONS
+# imports from current project
+from config import CONFIG_FILE
+from config import ICONS
+
 
 
 class MainWindow(Gtk.ApplicationWindow):

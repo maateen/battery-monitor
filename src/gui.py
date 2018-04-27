@@ -12,6 +12,7 @@ from gi.repository import Gtk
 from MainWindow import MainWindow
 
 
+
 def main() -> None:
     win = MainWindow()
     win.connect('delete_event', Gtk.main_quit)
