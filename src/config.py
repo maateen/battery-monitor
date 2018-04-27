@@ -13,7 +13,7 @@ ICONS = {
     "fail": "icon.png",
     "charging": "charging.png",
     "discharging": "discharging.png",
-    "full":  "not-charging.png",
+    "full":  "full-charge.png",
     "unknown":  "not-charging.png",
     "low_battery": "low-battery.png",
     "critical_battery": "critical-battery.png",
@@ -56,14 +56,14 @@ MESSAGES = {
         u"{battery_percentage} % Remaining"
     ),
 
-    "critical_battery": (
-        u"Critically Low Battery",
-        u"Only {battery_percentage} %, {remaining_time}"
-    ),
-
     "low_battery": (
         u"Low Battery",
         u"Now {battery_percentage} %, {remaining_time}"
+    ),
+
+    "critical_battery": (
+        u"Critically Low Battery",
+        u"Only {battery_percentage} %, {remaining_time}"
     ),
 
     "first_custom_warning": (
@@ -80,4 +80,19 @@ MESSAGES = {
         u"Third Custom Warning",
         u"Now {battery_percentage} %, {remaining_time}"
     ),
+}
+
+TEST_CASES = {
+    "state": [
+        "Full",
+        "Charging",
+        "Discharging",
+    ],
+    "remaining": [
+        "00:10:12 remaining",
+        "01:47:31 remaining",
+        "02:33:47 remaining",
+        "03:24:25 remaining",
+        "discharging at zero rate - will never fully discharge",
+    ],
 }
