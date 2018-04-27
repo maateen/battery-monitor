@@ -5,6 +5,9 @@ import random
 import subprocess
 from typing import Dict
 
+# imports from current project
+from config import TEST_CASES
+
 
 class BatteryMonitor:
     raw_battery_info: str
@@ -18,9 +21,9 @@ class BatteryMonitor:
 
     def get_raw_battery_info(self):
         if self.TEST_MODE:
-            state = random.choice(['Charging', 'Discharging'])
+            state = random.choice(TEST_CASES['state'])
             percentage = str(random.randint(0, 100))
-            remaining = random.choice(['03:24:25 remaining', 'discharging at zero rate - will never fully discharge'])
+            remaining = random.choice(TEST_CASES['remaining'])
             result = "Battery 0: " + state + ", " + percentage + "%, " + remaining
             print(result)
             return result.encode('UTF-8')

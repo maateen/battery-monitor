@@ -11,6 +11,7 @@ gi.require_version('Notify', '0.7')
 from gi.repository import Notify
 
 # imports from current project
+from BatteryMonitor import BatteryMonitor
 from config import ICONS
 from config import MESSAGES
 
@@ -26,6 +27,7 @@ class Notification:
     last_percentage: int
 
     def __init__(self, type: str) -> None:
+        # initiating notification
         Notify.init("Battery Monitor")
         message = MESSAGES[type]
         head = message[0]
@@ -37,7 +39,7 @@ class Notification:
         self.notifier.set_urgency(Notify.Urgency.CRITICAL)
         self.notifier.show()
 
-        # class variable
+        # configuration variables
         self.config_dir = os.path.expanduser('~/.config/battery-monitor')
         self.config_file = os.path.join(self.config_dir, 'battery-monitor.cfg')
         self.config = configparser.ConfigParser()
@@ -92,7 +94,7 @@ class Notification:
         time.sleep(self.notification_stability)
         self.notifier.close()
 
-    def show_specific_notifications(self, monitor):
+    def show_specific_notifications(self, monitor: BatteryMonitor):
         info = monitor.get_processed_battery_info()
         state = info["state"]
         percentage = int(info["percentage"].replace("%", ""))
