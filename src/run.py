@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # standard library
+import signal
 import subprocess
 import sys
 import time
@@ -11,37 +12,32 @@ from Notification import Notification
 
 
 def main() -> None:
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    # checking Test Mode enabled or not
     try:
-        print("Press 'ctrl+C' to exit.")
-
-        # checking Test Mode enabled or not
-        try:
-            if sys.argv[1] == '--test':
-                TEST_MODE = True
-            else:
-                TEST_MODE = False
-        except IndexError:
+        if sys.argv[1] == '--test':
+            TEST_MODE = True
+        else:
             TEST_MODE = False
+    except IndexError:
+        TEST_MODE = False
 
+    try:
         monitor = BatteryMonitor(TEST_MODE)
-        notification = Notification("success")
+    except subprocess.CalledProcessError as e:
+        notification = Notification("acpi")
         time.sleep(3)
-        notification.show_specific_notifications(monitor)
-
-        while True:
-            if monitor.is_updated():
-                notification.show_specific_notifications(monitor)
-
-            time.sleep(3)
-
-    except KeyboardInterrupt:
-        print("\nBattery Monitor has been exited successfully.")
         del notification
-        sys.exit(0)
+        sys.exit(1)
 
-    except subprocess.CalledProcessError:
-        notification = Notification("fail")
-        del notification
+    notification = Notification("success")
+    time.sleep(3)
+    notification.show_specific_notifications(monitor)
+
+    while True:
+        if monitor.is_updated():
+            notification.show_specific_notifications(monitor)
+        time.sleep(3)
 
 if __name__ == '__main__':
     main()

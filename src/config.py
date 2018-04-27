@@ -6,12 +6,15 @@ import os
 _path = os.path.dirname(os.path.abspath(__file__))
 _icon_path = _path + '/icons/'
 
+APPINDICATOR_ID = 'batterymonitor'
+
 CONFIG_FILE = os.path.expanduser('~/.config/battery-monitor/battery-monitor.cfg')
 
 ICONS = {
     "app": "icon.png",
     "success": "icon.png",
     "fail": "icon.png",
+    "acpi": "icon.png",
     "charging": "charging.png",
     "discharging": "discharging.png",
     "full":  "full-charge.png",
@@ -29,12 +32,17 @@ for key in ICONS:
 MESSAGES = {
     "success": (
         u"Battery Monitor",
-        u"Congrats! Started to monitor just now."
+        u"Cheers! Your battery is being monitored now."
     ),
 
     "fail": (
         u"Battery Monitor",
-        u"Battery is not yet present!"
+        u"Alas! Battery is not yet present!"
+    ),
+
+    "acpi": (
+        u"Battery Monitor",
+        u"Dependency Error! acpi is not installed.",
     ),
 
     "charging": (
