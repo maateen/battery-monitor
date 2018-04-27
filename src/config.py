@@ -5,7 +5,7 @@ import os
 _path = os.path.dirname(os.path.abspath(__file__))
 _icon_path = _path + '/icons/'
 
-CONFIG_FILE = '~/.config/battery-monitor/battery-monitor.cfg'
+CONFIG_FILE = os.path.expanduser('~/.config/battery-monitor/battery-monitor.cfg')
 
 ICONS = {
     "app": "icon.png",

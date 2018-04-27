@@ -12,6 +12,7 @@ from gi.repository import Notify
 
 # imports from current project
 from BatteryMonitor import BatteryMonitor
+from config import CONFIG_FILE
 from config import ICONS
 from config import MESSAGES
 
@@ -33,21 +34,17 @@ class Notification:
         head = message[0]
         body = message[1]
         icon = ICONS[type]
-        self.last_notification = ''
         self.last_percentage = 0
+        self.last_notification = ''
         self.notifier = Notify.Notification.new(head, body, icon)
         self.notifier.set_urgency(Notify.Urgency.CRITICAL)
         self.notifier.show()
-
-        # configuration variables
-        self.config_dir = os.path.expanduser('~/.config/battery-monitor')
-        self.config_file = os.path.join(self.config_dir, 'battery-monitor.cfg')
         self.config = configparser.ConfigParser()
         self.load_config()
 
     def load_config(self):
         try:
-            self.config.read(self.config_file)
+            self.config.read(CONFIG_FILE)
             try:
                 self.critical_battery = int(self.config['settings']['critical_battery'])
             except ValueError:
@@ -95,68 +92,70 @@ class Notification:
         self.notifier.close()
 
     def show_specific_notifications(self, monitor: BatteryMonitor):
+        """Shows specific notifications depending on the changes of battery state.
+
+        Shows Notification only while state or last notification changes. Notification will not be shown for each percentage change. Sometimes acpi returns remaining time like *discharging at zero rate - will never fully discharge* We will skip it.
+        """
         info = monitor.get_processed_battery_info()
         state = info["state"]
         percentage = int(info["percentage"].replace("%", ""))
         remaining = info.get("remaining")
 
-        # Show warning one time for each percentage while its low battery.
-        # Low battery notification shuld not be show while it is charging.
-        # Also Keep in memory which notification was showed last time
-        if self.last_percentage != percentage and state != "charging":
-            self.last_percentage = percentage
-            if percentage <= self.critical_battery:
-                self.last_notification = "critical_battery"
-                self.show_notification(type="critical_battery",
+        if state == 'discharging':
+            if (percentage != self.last_percentage and
+                remaining != "discharging at zero rate - will never fully discharge"):
+                self.last_percentage = percentage
+                if percentage <= self.critical_battery:
+                    self.last_notification = "critical_battery"
+                    self.show_notification(type="critical_battery",
+                                           battery_percentage=percentage,
+                                           remaining_time=remaining)
+
+                    return "critical_battery"
+
+                elif (percentage <= self.low_battery and
+                      self.last_notification != "low_battery"):
+                    self.last_notification = "low_battery"
+                    self.show_notification(type="low_battery",
+                                           battery_percentage=percentage,
+                                           remaining_time=remaining)
+
+                    return "low_battery"
+
+                elif (percentage <= self.third_custom_warning and
+                      self.last_notification != "third_custom_warning"):
+                    self.last_notification = "third_custom_warning"
+                    self.show_notification(type="third_custom_warning",
+                                           battery_percentage=percentage,
+                                           remaining_time=remaining)
+
+                    return "third_custom_warning"
+
+                elif (percentage <= self.second_custom_warning and
+                      self.last_notification != "second_custom_warning"):
+                    self.last_notification = "second_custom_warning"
+                    self.show_notification(type="second_custom_warning",
+                                           battery_percentage=percentage,
+                                           remaining_time=remaining)
+
+                    return "second_custom_warning"
+
+                elif (percentage <= self.first_custom_warning and
+                      self.last_notification != "first_custom_warning"):
+                    self.last_notification = "first_custom_warning"
+                    self.show_notification(type="first_custom_warning",
+                                           battery_percentage=percentage,
+                                           remaining_time=remaining)
+
+                    return "first_custom_warning"
+        else:
+            if state != self.last_notification and remaining != "discharging at zero rate - will never fully discharge":
+                self.last_notification = state
+                self.show_notification(type=state,
                                        battery_percentage=percentage,
                                        remaining_time=remaining)
 
-                return "critical_battery"
-
-            elif percentage <= self.low_battery:
-                self.last_notification = "low_battery"
-                self.show_notification(type="low_battery",
-                                       battery_percentage=percentage,
-                                       remaining_time=remaining)
-
-                return "low_battery"
-
-            elif percentage <= self.first_custom_warning:
-                self.last_notification = "first_custom_warning"
-                self.show_notification(type="first_custom_warning",
-                                       battery_percentage=percentage,
-                                       remaining_time=remaining)
-
-                return "first_custom_warning"
-
-            elif percentage <= self.second_custom_warning:
-                self.last_notification = "second_custom_warning"
-                self.show_notification(type="second_custom_warning",
-                                       battery_percentage=percentage,
-                                       remaining_time=remaining)
-
-                return "second_custom_warning"
-
-            elif percentage <= self.third_custom_warning:
-                self.last_notification = "third_custom_warning"
-                self.show_notification(type="third_custom_warning",
-                                       battery_percentage=percentage,
-                                       remaining_time=remaining)
-
-                return "third_custom_warning"
-
-        # Show Notification only while state changes.
-        # Notification should not be shown for each percentage change.
-        # Sometime acpi return remaining time like
-        # *discharging at zero rate - will never fully discharge*
-        # We should skip it
-        if state != self.last_notification and remaining != "discharging at zero rate - will never fully discharge":
-            self.last_notification = state
-            self.show_notification(type=state,
-                                   battery_percentage=percentage,
-                                   remaining_time=remaining)
-
-            return state
+                return state
 
     def __del__(self):
         self.notifier.close()

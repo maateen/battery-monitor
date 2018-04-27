@@ -27,6 +27,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.get_focus()
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_default_icon_from_file(ICONS['app'])
+        self.config_dir = os.path.dirname(CONFIG_FILE)
         self.config = configparser.ConfigParser()
         self.load_config()
 
@@ -106,7 +107,7 @@ class MainWindow(Gtk.ApplicationWindow):
         """
 
         try:
-            self.config.read(self.config_file)
+            self.config.read(CONFIG_FILE)
             self.critical_battery = self.config['settings']['critical_battery']
             self.low_battery = self.config['settings']['low_battery']
             self.first_custom_warning = self.config['settings']['first_custom_warning']
@@ -140,7 +141,7 @@ class MainWindow(Gtk.ApplicationWindow):
             'first_custom_warning': self.entry4.get_text(),
             'notification_stability': self.entry5.get_text()
         }
-        with open(self.config_file, 'w') as f:
+        with open(CONFIG_FILE, 'w') as f:
             self.config.write(f)
             dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
                                        Gtk.ButtonsType.OK,
