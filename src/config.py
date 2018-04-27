@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# standard library
 import os
 
 _path = os.path.dirname(os.path.abspath(__file__))
