@@ -2,17 +2,19 @@
 
 # standard library
 import signal
-import subprocess
 import sys
-import time
+
+# third-party library
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import GObject
 
 # imports from current project
-from BatteryMonitor import BatteryMonitor
-from Notification import Notification
+from AppIndicator import AppIndicator
 
 
 def main() -> None:
-    signal.signal(signal.SIGINT, signal.SIG_DFL)
     # checking Test Mode enabled or not
     try:
         if sys.argv[1] == '--test':
@@ -22,22 +24,11 @@ def main() -> None:
     except IndexError:
         TEST_MODE = False
 
-    try:
-        monitor = BatteryMonitor(TEST_MODE)
-    except subprocess.CalledProcessError as e:
-        notification = Notification("acpi")
-        time.sleep(3)
-        del notification
-        sys.exit(1)
-
-    notification = Notification("success")
-    time.sleep(3)
-    notification.show_specific_notifications(monitor)
-
-    while True:
-        if monitor.is_updated():
-            notification.show_specific_notifications(monitor)
-        time.sleep(3)
+    # initiaing app indicator
+    indicator = AppIndicator(TEST_MODE)
+    GObject.threads_init()
+    Gtk.main()
 
 if __name__ == '__main__':
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
     main()
