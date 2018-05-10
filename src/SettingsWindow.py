@@ -15,7 +15,7 @@ from config import ICONS
 
 
 
-class MainWindow(Gtk.ApplicationWindow):
+class SettingsWindow(Gtk.ApplicationWindow):
     """Main class for the GUI.
 
     This class displays the main window that the user will

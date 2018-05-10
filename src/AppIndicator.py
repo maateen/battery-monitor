@@ -17,7 +17,7 @@ from config import APPINDICATOR_ID
 from config import ICONS
 from BatteryMonitor import BatteryMonitor
 from Notification import Notification
-
+from SettingsWindow import SettingsWindow
 
 class AppIndicator:
     """Class for system tray icon.
@@ -32,17 +32,25 @@ class AppIndicator:
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
         # create menu
-        self.menu = Gtk.Menu()
-        item_quit = Gtk.MenuItem('Quit')
-        item_quit.connect("activate", self.__quit)
-        self.menu.append(item_quit)
-        self.menu.show_all()
-        self.indicator.set_menu(self.menu)
+        self.indicator.set_menu(self.__create_menu())
 
         # run the daemon
         self.daemon = Thread(target=self.__run_daemon, args=(TEST_MODE,))
         self.daemon.setDaemon(True)
         self.daemon.start()
+
+    def __create_menu(self):
+        menu = Gtk.Menu()
+        item_settings = Gtk.MenuItem('Settings')
+        item_settings.connect("activate", self.__settings_window)
+        menu.append(item_settings)
+
+        item_quit = Gtk.MenuItem('Quit')
+        item_quit.connect("activate", self.__quit)
+        menu.append(item_quit)
+        menu.show_all()
+
+        return menu
 
     def __run_daemon(self, TEST_MODE: bool = False):
         # initiaing BatteryMonitor
@@ -64,5 +72,11 @@ class AppIndicator:
                 notification.show_specific_notifications(monitor)
             time.sleep(3)
 
-    def __quit(self, source=None):
+    def __settings_window(self, *args):
+        settings = SettingsWindow()
+        settings.connect('delete_event', Gtk.main_quit)
+        settings.show_all()
+        Gtk.main()
+
+    def __quit(self, *args):
         Gtk.main_quit()
