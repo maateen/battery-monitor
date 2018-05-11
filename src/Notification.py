@@ -7,6 +7,7 @@ import time
 
 # third-party library
 import gi
+from gi.repository import GLib
 gi.require_version('Notify', '0.7')
 from gi.repository import Notify
 
@@ -15,6 +16,7 @@ from BatteryMonitor import BatteryMonitor
 from config import CONFIG_FILE
 from config import ICONS
 from config import MESSAGES
+
 
 
 
@@ -38,7 +40,11 @@ class Notification:
         self.last_notification = ''
         self.notifier = Notify.Notification.new(head, body, icon)
         self.notifier.set_urgency(Notify.Urgency.CRITICAL)
-        self.notifier.show()
+        try:
+            self.notifier.show()
+        except GLib.GError as e:
+            # fixing GLib.GError: g-dbus-error-quark blindly
+            pass
         self.config = configparser.ConfigParser()
         self.load_config()
 
@@ -87,7 +93,11 @@ class Notification:
                                  remaining_time=remaining_time)
         icon = ICONS[type]
         self.notifier.update(head, body, icon)
-        self.notifier.show()
+        try:
+            self.notifier.show()
+        except GLib.GError as e:
+            # fixing GLib.GError: g-dbus-error-quark blindly
+            pass
         time.sleep(self.notification_stability)
         self.notifier.close()
 
