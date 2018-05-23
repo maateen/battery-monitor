@@ -76,7 +76,7 @@ class Notification:
             except ValueError:
                 self.notification_stability = 5
         except:
-            print('Config file is missing or not readable. Using defaults!')
+            print('Config file is missing or not readable. Using default configurations.')
             self.critical_battery = 10
             self.low_battery = 30
             self.first_custom_warning = -1
@@ -97,6 +97,7 @@ class Notification:
             self.notifier.show()
         except GLib.GError as e:
             # fixing GLib.GError: g-dbus-error-quark blindly
+            # To Do: investigate the main reason and make a fix
             pass
         time.sleep(self.notification_stability)
         self.notifier.close()

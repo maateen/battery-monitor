@@ -152,5 +152,4 @@ class SettingsWindow(Gtk.ApplicationWindow):
             dialog.format_secondary_text(
                 'You settings have been saved successfully.')
             dialog.run()
-            print("Info dialog closed")
             dialog.destroy()
