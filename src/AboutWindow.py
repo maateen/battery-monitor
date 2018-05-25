@@ -34,7 +34,7 @@ class AboutWindow():
         self.about_dialog.set_copyright('Copyright \xa9 2016-2018 Maksudur Rahman Maateen')
         self.about_dialog.set_website_label('Official Website')
         self.about_dialog.set_website('http://battery-monitor.maateen.me/')
-        self.about_dialog.set_comments('Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify user about charging, discharging, not charging and critically low battery state of the battery on Linux (Surely if battery is present).')
+        self.about_dialog.set_comments('Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify the user about charging, discharging, not charging and critically low battery state of the battery on Linux (Surely if the battery is present).')
         self.about_dialog.set_license_type (Gtk.License.GPL_3_0,)
         self.about_dialog.set_default_icon_from_file(ICONS['app'])
         self.about_dialog.set_logo(GdkPixbuf.Pixbuf.new_from_file_at_size(ICONS['app'], 64, 64))
