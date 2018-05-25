@@ -15,14 +15,13 @@ from config import ICONS
 
 
 
-class SettingsWindow(Gtk.ApplicationWindow):
-    """Main class for the GUI.
+class SettingsWindow(Gtk.Window):
+    """GUI class for Settings Window.
 
-    This class displays the main window that the user will
-    see when he wants to manage Battery Monitor
+    This class displays the Settings window in where the user can manage the configurations for Battery Monitor.
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         Gtk.Window.__init__(self, title='Battery Monitor')
         self.set_default_size(800, 400)
         self.set_resizable(True)
@@ -32,8 +31,13 @@ class SettingsWindow(Gtk.ApplicationWindow):
         self.set_default_icon_from_file(ICONS['app'])
         self.config_dir = os.path.dirname(CONFIG_FILE)
         self.config = configparser.ConfigParser()
-        self.load_config()
+        self.__load_config()
 
+        self.notebook = Gtk.Notebook()
+        self.add(self.notebook)
+        self.notebook.append_page(self.__configuration_page(), Gtk.Label('Configuration'))
+
+    def __configuration_page(self):
         label0 = Gtk.Label('Very Low Battery Warning at')
         label0.set_justify(Gtk.Justification.LEFT)
         label0.set_halign(Gtk.Align.START)
@@ -79,10 +83,9 @@ class SettingsWindow(Gtk.ApplicationWindow):
         self.entry5.set_tooltip_text('Set in second')
 
         save_button = Gtk.Button(label='Save')
-        save_button.connect('clicked', self.save_config)
+        save_button.connect('clicked', self.__save_config)
 
         grid = Gtk.Grid()
-        self.add(grid)
         grid.set_row_spacing(15)
         grid.set_hexpand(True)
         grid.set_vexpand(True)
@@ -103,7 +106,9 @@ class SettingsWindow(Gtk.ApplicationWindow):
         grid.attach(self.entry5, 14, 5, 1, 1)
         grid.attach(save_button, 9, 7, 1, 1)
 
-    def load_config(self):
+        return grid
+
+    def __load_config(self):
         """Loads configurations from config file.
 
         Tries to read and parse from config file. If the config file is missing or not readable, then it triggers default configurations.
@@ -126,7 +131,7 @@ class SettingsWindow(Gtk.ApplicationWindow):
             self.third_custom_warning = ''
             self.notification_stability = '5'
 
-    def save_config(self, widget):
+    def __save_config(self, widget):
         """Saves configurations to config file.
 
         Saves user-defined configurations to config file. If the config file does not exist, it creates a new config file (~/.config/battery-monitor/battery-monitor.cfg) in user's home directory.

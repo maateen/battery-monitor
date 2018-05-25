@@ -15,6 +15,7 @@ from gi.repository import Gtk
 # imports from current project
 from config import APPINDICATOR_ID
 from config import ICONS
+from AboutWindow import AboutWindow
 from BatteryMonitor import BatteryMonitor
 from Notification import Notification
 from SettingsWindow import SettingsWindow
@@ -39,11 +40,20 @@ class AppIndicator:
         self.daemon.setDaemon(True)
         self.daemon.start()
 
+    def __about_window(self, *args):
+        about_window = AboutWindow()
+        about_window.show()
+
     def __create_menu(self):
         menu = Gtk.Menu()
+
         item_settings = Gtk.MenuItem('Settings')
         item_settings.connect("activate", self.__settings_window)
         menu.append(item_settings)
+
+        item_about = Gtk.MenuItem('About')
+        item_about.connect("activate", self.__about_window)
+        menu.append(item_about)
 
         item_quit = Gtk.MenuItem('Quit')
         item_quit.connect("activate", self.__quit)
