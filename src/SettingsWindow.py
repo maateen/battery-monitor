@@ -38,7 +38,7 @@ class SettingsWindow(Gtk.Window):
         self.notebook.append_page(self.__configuration_page(), Gtk.Label('Configuration'))
 
     def __configuration_page(self):
-        label0 = Gtk.Label('Very Low Battery Warning at')
+        label0 = Gtk.Label('Critical Battery Warning at')
         label0.set_justify(Gtk.Justification.LEFT)
         label0.set_halign(Gtk.Align.START)
         label0.set_hexpand(True)
