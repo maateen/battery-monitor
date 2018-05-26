@@ -81,6 +81,8 @@ sudo make install
 ```
 That's all. **Battery Monitor (Beta)** is installed on your system.
 
+For Arch Linux and Arch-based distros like Manjaro and Antergos, the beta version is available in the [AUR](https://aur.archlinux.org/packages/battery-monitor-devel/).
+
 ### For Developers
 Now you can automatically test **Battery Monitor** from Terminal:
 
