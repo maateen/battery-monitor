@@ -12,6 +12,7 @@ from gi.repository import Gtk
 # imports from current project
 from config import CONFIG_FILE
 from config import ICONS
+from ErrorLib import ValidationError
 
 
 
@@ -141,6 +142,7 @@ class SettingsWindow(Gtk.Window):
             pass
         else:
             os.makedirs(self.config_dir)
+
         self.config['settings'] = {
             'critical_battery': self.entry0.get_text(),
             'low_battery': self.entry1.get_text(),
@@ -149,12 +151,34 @@ class SettingsWindow(Gtk.Window):
             'first_custom_warning': self.entry4.get_text(),
             'notification_stability': self.entry5.get_text()
         }
-        with open(CONFIG_FILE, 'w') as f:
-            self.config.write(f)
-            dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
-                                       Gtk.ButtonsType.OK,
-                                       "Successfully Saved!")
-            dialog.format_secondary_text(
-                'You settings have been saved successfully.')
+
+        try:
+            self.__validate_config(self.config['settings'])
+            with open(CONFIG_FILE, 'w') as f:
+                self.config.write(f)
+                dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, 'Successfully Saved!')
+                dialog.format_secondary_text(
+                    'You settings have been saved successfully.')
+                dialog.run()
+                dialog.destroy()
+        except ValidationError as message:
+            dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.CANCEL, 'Validation Error!')
+            dialog.format_secondary_text(str(message))
             dialog.run()
             dialog.destroy()
+
+    def __validate_config(self, config):
+        """validates config before saving to config file."""
+
+        if int(config['critical_battery']) >= int(config['low_battery']):
+            raise ValidationError('We believe you want critical battery warning at lower level than low battery warning.')
+        elif int(config['low_battery']) >= int(config['third_custom_warning']):
+            raise ValidationError('We believe you want low battery warning at lower level than third custom warning.')
+        elif int(config['third_custom_warning']) >= int(config['second_custom_warning']):
+            raise ValidationError('We believe you want third custom warning at lower level than second custom warning.')
+        elif int(config['second_custom_warning']) >= int(config['first_custom_warning']):
+            raise ValidationError('We believe you want second custom warning at lower level than first custom warning.')
+        elif int(config['notification_stability']) <= 0:
+            raise ValidationError('Notification stability should be higher than zero.')
+        else:
+            pass
