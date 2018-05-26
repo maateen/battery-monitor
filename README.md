@@ -5,7 +5,8 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
  - [Dependencies](#dependencies)
  - [Installation](#installation)
      - [Common Method](#common-method)
-     - [For Ubuntu and its derivatives](#for-ubuntu-and-its-derivatives)
+     - [For Ubuntu and it's derivatives](#for-ubuntu-and-its-derivatives)
+     - [For Arch Linux and it's derivatives](#for-arch-linux-and-its-derivatives)
      - [For Beta Testers](#for-beta-testers)
      - [For Developers](#for-developers)
  - [User Manual](#user-manual)
@@ -50,7 +51,7 @@ sudo make install
 ```
 That's all. **Battery Monitor (Stable)** is installed on your system.
 
-### For Ubuntu and its derivatives
+### For Ubuntu and it's derivatives
 
 Let's install from PPA (currently supported: **14.04**, **16.04**, **17.10** & **18.04**):
 
@@ -64,6 +65,10 @@ sudo apt-get update
 sudo apt-get install battery-monitor -y
 ```
 That's all. **Battery Monitor (Stable)** is installed on your system.
+
+### For Arch Linux and it's derivatives
+
+The beta version is available in the [Arch User Repository](https://aur.archlinux.org/packages/battery-monitor-devel/). If you're not sure how to use the AUR, please see the [Manjaro](https://wiki.manjaro.org/index.php/Arch_User_Repository) and [Arch](https://wiki.archlinux.org/index.php/Arch_User_Repository#What_is_the_AUR.3F) wiki entries about it. You will need an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install packages. 
 
 ### For Beta Testers
 
@@ -80,8 +85,6 @@ cd battery-monitor-devel
 sudo make install
 ```
 That's all. **Battery Monitor (Beta)** is installed on your system.
-
-For Arch Linux and Arch-based distros like Manjaro and Antergos, the beta version is available in the [AUR](https://aur.archlinux.org/packages/battery-monitor-devel/).
 
 ### For Developers
 Now you can automatically test **Battery Monitor** from Terminal:
