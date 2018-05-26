@@ -30,6 +30,7 @@ class AppIndicator:
 
     def __init__(self, TEST_MODE: bool = False):
         self.indicator = AppIndicator3.Indicator.new(APPINDICATOR_ID, ICONS['app'], AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
+        self.indicator.set_title('Battery Monitor')
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
         # create menu
