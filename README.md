@@ -6,6 +6,7 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
  - [Installation](#installation)
      - [Common Method](#common-method)
      - [For Ubuntu and its derivatives](#for-ubuntu-and-its-derivatives)
+     - [For Arch Linux and its derivatives](#for-arch-linux-and-its-derivatives)
      - [For Beta Testers](#for-beta-testers)
      - [For Developers](#for-developers)
  - [User Manual](#user-manual)
@@ -64,6 +65,10 @@ sudo apt-get update
 sudo apt-get install battery-monitor -y
 ```
 That's all. **Battery Monitor (Stable)** is installed on your system.
+
+### For Arch Linux and its derivatives
+
+The beta version is available in the [Arch User Repository](https://aur.archlinux.org/packages/battery-monitor-devel/). If you're not sure how to use the AUR, please see the [Manjaro](https://wiki.manjaro.org/index.php/Arch_User_Repository) and [Arch](https://wiki.archlinux.org/index.php/Arch_User_Repository#What_is_the_AUR.3F) wiki entries about it. You will need an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install packages. 
 
 ### For Beta Testers
 
