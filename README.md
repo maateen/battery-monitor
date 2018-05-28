@@ -1,6 +1,6 @@
 # Battery Monitor
 
-Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify the user about charging, discharging, not charging and critically low battery state of the battery on Linux (Surely if the battery is present).
+Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify the user about charging, discharging, not charging and critically low battery state of the battery on Linux (surely if the battery is present).
 
  - [Dependencies](#dependencies)
  - [Installation](#installation)
@@ -212,8 +212,12 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 
 ### [Safwan Rahman](https://github.com/safwanrahman)
 
-One of the biggest contributor to**Battery Monitor**. He has reformated the code in a new style. The style represents the code easier to understand. Also, he has optimized the code in a way that **Battery Monitor** consumes a little resource of your PC. Please take a minute to thank him.
+He has reformatted the code in a new style. The style represents the code easier to understand. Also, he has optimized the code in a way that **Battery Monitor** consumes a little resource of your PC. Please take a minute to thank him.
 
 ### [Abdelhak Bougouffa](https://abougouffa.github.io/)
 
-Another biggest contributor to**Battery Monitor**. He has fixed some bugs and optimized **Battery Monitor** in a way so that it consumes lower CPU and RAM than before. Please take a minute to thank him.
+He has fixed some bugs and optimized **Battery Monitor** in a way so that it consumes lower CPU and RAM than before. Please take a minute to thank him.
+
+### [Yochanan Marqos](https://github.com/yochananmarqos)
+
+He is our official package maintainer in AUR. He has put Arch users' life at ease. Please take a minute to thank him.
