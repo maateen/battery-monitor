@@ -68,7 +68,7 @@ That's all. **Battery Monitor (Stable)** is installed on your system.
 
 ### For Arch Linux and its derivatives
 
-The beta version is available in the [Arch User Repository](https://aur.archlinux.org/packages/battery-monitor-devel/). If you're not sure how to use the AUR, please see the [Manjaro](https://wiki.manjaro.org/index.php/Arch_User_Repository) and [Arch](https://wiki.archlinux.org/index.php/Arch_User_Repository#What_is_the_AUR.3F) wiki entries about it. You will need an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install packages. 
+The beta version is available in the [Arch User Repository](https://aur.archlinux.org/packages/battery-monitor-devel/). If you're not sure how to use the AUR, please see the [Manjaro](https://wiki.manjaro.org/index.php/Arch_User_Repository) and [Arch](https://wiki.archlinux.org/index.php/Arch_User_Repository#What_is_the_AUR.3F) wiki entries about it. You will need an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install packages.
 
 ### For Beta Testers
 
@@ -154,6 +154,7 @@ Please take a look at our [milestones](https://github.com/maateen/battery-monito
 - [x] Fixed [issue #51](https://github.com/maateen/battery-monitor/issues/51)
 - [x] Added some new icons ([Issue #53](https://github.com/maateen/battery-monitor/issues/53))
 - [x] Added Ubuntu 18.04 LTS support ([Issue #55](https://github.com/maateen/battery-monitor/issues/55))
+- [x] Fixed [issue #61](https://github.com/maateen/battery-monitor/issues/61)
 
 ### v0.5.4
 
