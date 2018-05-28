@@ -59,7 +59,7 @@ class SettingsWindow(Gtk.Window):
         label4.set_justify(Gtk.Justification.LEFT)
         label4.set_halign(Gtk.Align.START)
         label4.set_hexpand(True)
-        label5 = Gtk.Label('Notification Stability')
+        label5 = Gtk.Label('Notification Stability Time')
         label5.set_justify(Gtk.Justification.LEFT)
         label5.set_halign(Gtk.Align.START)
         label5.set_hexpand(True)
@@ -170,15 +170,29 @@ class SettingsWindow(Gtk.Window):
     def __validate_config(self, config):
         """validates config before saving to config file."""
 
-        if int(config['critical_battery']) >= int(config['low_battery']):
-            raise ValidationError('We believe you want critical battery warning at lower level than low battery warning.')
-        elif int(config['low_battery']) >= int(config['third_custom_warning']):
-            raise ValidationError('We believe you want low battery warning at lower level than third custom warning.')
-        elif int(config['third_custom_warning']) >= int(config['second_custom_warning']):
-            raise ValidationError('We believe you want third custom warning at lower level than second custom warning.')
-        elif int(config['second_custom_warning']) >= int(config['first_custom_warning']):
-            raise ValidationError('We believe you want second custom warning at lower level than first custom warning.')
-        elif int(config['notification_stability']) <= 0:
-            raise ValidationError('Notification stability should be higher than zero.')
+        if bool(config['critical_battery']) and bool(config['low_battery']):
+            if int(config['critical_battery']) >= int(config['low_battery']):
+                raise ValidationError('The value of low battery warning must be greater than the value of critical battery warning.')
         else:
-            pass
+            if bool(config['critical_battery']):
+                raise ValidationError('Low battery warning can not be empty.')
+            else:
+                raise ValidationError('Critical battery warning can not be empty.')
+
+        if bool(config['low_battery']) and bool(config['third_custom_warning']):
+            if int(config['low_battery']) >= int(config['third_custom_warning']):
+                raise ValidationError('The value of third custom warning must be greater than the value of low battery warning.')
+
+        if bool(config['third_custom_warning']) and bool(config['second_custom_warning']):
+            if int(config['third_custom_warning']) >= int(config['second_custom_warning']):
+                raise ValidationError('The value of second custom warning must be greater than the value 0f third custom warning.')
+
+        if bool(config['second_custom_warning']) and bool(config['first_custom_warning']):
+            if int(config['second_custom_warning']) >= int(config['first_custom_warning']):
+                raise ValidationError('The value of first custom warning must be greater than then value of second custom warning.')
+
+        if bool(config['notification_stability']):
+            if int(config['notification_stability']) <= 0:
+                raise ValidationError('Notification stability time must be greater than zero.')
+        else:
+            raise ValidationError('Notification stability time can not be empty.')
