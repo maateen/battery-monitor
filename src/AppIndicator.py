@@ -85,7 +85,7 @@ class AppIndicator:
 
     def __settings_window(self, *args):
         settings = SettingsWindow()
-        settings.connect('delete_event', Gtk.main_quit)
+        settings.connect('destroy', Gtk.main_quit)
         settings.show_all()
         Gtk.main()
 
