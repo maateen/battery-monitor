@@ -159,7 +159,9 @@ class SettingsWindow(Gtk.Window):
                 dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, 'Successfully Saved!')
                 dialog.format_secondary_text(
                     'You settings have been saved successfully.')
-                dialog.run()
+                response = dialog.run()
+                if response == Gtk.ResponseType.OK:
+                    self.close()
                 dialog.destroy()
         except ValidationError as message:
             dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.CANCEL, 'Validation Error!')
