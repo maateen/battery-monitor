@@ -1,30 +1,22 @@
 SHELL := /bin/bash
-OUT_DIR = /usr/share/battery-monitor
+PREFIX ?= /usr/share
 
 all: install
 	@:
 
 install:
 	@echo You must be root to install.
-	@mkdir -p $(OUT_DIR)
-	@cp battery-monitor.py $(OUT_DIR)/battery-monitor.py
-	@cp battery-monitor-gui.py $(OUT_DIR)/battery-monitor-gui.py
-	@cp config.py $(OUT_DIR)/config.py
-	@cp -r icons $(OUT_DIR)/icons
-	@cp battery-monitor /usr/bin/battery-monitor
-	@chmod +x /usr/bin/battery-monitor
-	@cp battery-monitor-autostart.desktop /etc/xdg/autostart/battery-monitor-autostart.desktop
-	@cp battery-monitor.desktop /usr/share/applications/battery-monitor.desktop
-	@cp battery-monitor-gui.desktop /usr/share/applications/battery-monitor-gui.desktop
-	@rm -f ~/.config/autostart/battery-monitor.desktop
+	install -d $(DESTDIR)$(PREFIX)/battery-monitor
+	cp -a src/. $(DESTDIR)$(PREFIX)/battery-monitor
+	install -Dm755 battery-monitor /usr/local/bin/battery-monitor
+	install -Dm755 battery-monitor-autostart.desktop /etc/xdg/autostart/battery-monitor-autostart.desktop
+	install -Dm755 battery-monitor.desktop /usr/share/applications/battery-monitor.desktop
 	@echo Installation completed!
 
 uninstall:
 	@echo You must be root to uninstall.
-	@rm -rf $(OUT_DIR)
-	@rm -f /usr/bin/battery-monitor
-	@rm -f ~/.config/autostart/battery-monitor.desktop
+	@rm -rf $(DESTDIR)$(PREFIX)/battery-monitor
+	@rm -f /usr/local/bin/battery-monitor
 	@rm -f /etc/xdg/autostart/battery-monitor-autostart.desktop
 	@rm -f /usr/share/applications/battery-monitor.desktop
-	@rm -f /usr/share/applications/battery-monitor-gui.desktop
 	@echo Uninstallation completed!
