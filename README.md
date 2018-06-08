@@ -68,7 +68,7 @@ That's all. **Battery Monitor (Stable)** is installed on your system.
 
 ### For Arch Linux and its derivatives
 
-Both the stable version and the beta version is available in the [Arch User Repository](https://aur.archlinux.org/):
+Both the stable version and the beta version are available in the [Arch User Repository](https://aur.archlinux.org/):
 
 Stable: [`battery-monitor`](https://aur.archlinux.org/packages/battery-monitor)
 Beta: [`battery-monitor-devel`](https://aur.archlinux.org/packages/battery-monitor-devel)
