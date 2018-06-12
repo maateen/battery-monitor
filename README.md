@@ -68,7 +68,12 @@ That's all. **Battery Monitor (Stable)** is installed on your system.
 
 ### For Arch Linux and its derivatives
 
-The beta version is available in the [Arch User Repository](https://aur.archlinux.org/packages/battery-monitor-devel/). If you're not sure how to use the AUR, please see the [Manjaro](https://wiki.manjaro.org/index.php/Arch_User_Repository) and [Arch](https://wiki.archlinux.org/index.php/Arch_User_Repository#What_is_the_AUR.3F) wiki entries about it. You will need an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install packages.
+Both the stable version and the beta version are available in the [Arch User Repository](https://aur.archlinux.org/):
+
+Stable: [`battery-monitor`](https://aur.archlinux.org/packages/battery-monitor)
+Beta: [`battery-monitor-devel-git`](https://aur.archlinux.org/packages/battery-monitor-devel-git)
+
+If you're not sure how to use the AUR, please see the [Manjaro](https://wiki.manjaro.org/index.php/Arch_User_Repository) and [Arch](https://wiki.archlinux.org/index.php/Arch_User_Repository#What_is_the_AUR.3F) wiki entries about it. You will need an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install packages.
 
 ### For Beta Testers
 
