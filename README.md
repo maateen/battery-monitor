@@ -30,6 +30,7 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
 * python3-gi
 * libnotify4
 * libappindicator3-1
+* gir1.2-appindicator3-0.1
 
 To use **Battery Monitor** you need these dependencies installed on your PC.
 
