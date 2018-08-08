@@ -11,7 +11,7 @@ from gi.repository import Gtk
 from gi.repository import GObject
 
 # imports from current project
-from AppIndicator import AppIndicator
+from .AppIndicator import AppIndicator
 
 
 def main() -> None:

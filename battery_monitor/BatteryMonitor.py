@@ -6,7 +6,7 @@ import subprocess
 from typing import Dict
 
 # imports from current project
-from config import TEST_CASES
+from .config import TEST_CASES
 
 
 class BatteryMonitor:

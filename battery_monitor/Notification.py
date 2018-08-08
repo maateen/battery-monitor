@@ -12,10 +12,10 @@ gi.require_version('Notify', '0.7')
 from gi.repository import Notify
 
 # imports from current project
-from BatteryMonitor import BatteryMonitor
-from config import CONFIG_FILE
-from config import ICONS
-from config import MESSAGES
+from .BatteryMonitor import BatteryMonitor
+from .config import CONFIG_FILE
+from .config import ICONS
+from .config import MESSAGES
 
 
 

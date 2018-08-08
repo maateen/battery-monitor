@@ -7,7 +7,7 @@ from gi.repository import Gtk
 from gi.repository import GdkPixbuf
 
 # imports from current project
-from config import ICONS
+from .config import ICONS
 
 
 

@@ -13,12 +13,12 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 # imports from current project
-from config import APPINDICATOR_ID
-from config import ICONS
-from AboutWindow import AboutWindow
-from BatteryMonitor import BatteryMonitor
-from Notification import Notification
-from SettingsWindow import SettingsWindow
+from .config import APPINDICATOR_ID
+from .config import ICONS
+from .AboutWindow import AboutWindow
+from .BatteryMonitor import BatteryMonitor
+from .Notification import Notification
+from .SettingsWindow import SettingsWindow
 
 class AppIndicator:
     """Class for system tray icon.
