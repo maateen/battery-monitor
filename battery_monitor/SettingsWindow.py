@@ -10,9 +10,9 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 # imports from current project
-from config import CONFIG_FILE
-from config import ICONS
-from ErrorLib import ValidationError
+from .config import CONFIG_FILE
+from .config import ICONS
+from .ErrorLib import ValidationError
 
 
 
