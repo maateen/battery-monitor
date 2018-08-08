@@ -1,9 +1,9 @@
 [Desktop Entry]
 Name=Battery Monitor
 Type=Application
-Exec=/usr/bin/python3 /usr/share/battery-monitor/run.py
+Exec=%EXEC_PATH%
 Terminal=false
-Icon=/usr/share/battery-monitor/icons/icon.png
+Icon=%ICON_PATH%
 Comment=A utility tool, notifies user about charging, discharging and not charging state of the battery on Linux.
 NoDisplay=false
 Categories=Utility;
