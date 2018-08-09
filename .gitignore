@@ -92,5 +92,4 @@ ENV/
 /battery-monitor/debian/debhelper-build-stamp
 /battery-monitor/debian/files
 battery-monitor_*
-installed-files.txt
 *.desktop
