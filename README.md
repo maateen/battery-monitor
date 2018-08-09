@@ -227,3 +227,7 @@ He has fixed some bugs and optimized **Battery Monitor** in a way so that it con
 ### [Yochanan Marqos](https://github.com/yochananmarqos)
 
 He is our official package maintainer in AUR. He has put Arch users' life at ease. Please take a minute to thank him.
+
+### [Benjamin Staffin](https://github.com/benley)
+
+Improved the build process and added modern Python setuptools packaging.
