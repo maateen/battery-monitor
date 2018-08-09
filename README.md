@@ -28,6 +28,7 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
 * acpi
 * python3
 * python3-gi
+* python3-setuptools
 * libnotify4
 * libappindicator3-1
 * gir1.2-appindicator3-0.1
