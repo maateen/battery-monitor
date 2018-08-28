@@ -1,3 +1,4 @@
+
 # Battery Monitor
 
 Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify the user about charging, discharging, not charging and critically low battery state of the battery on Linux (surely if the battery is present).
@@ -55,7 +56,7 @@ That's all. **Battery Monitor (Stable)** is installed on your system.
 
 ### For Ubuntu and its derivatives
 
-Let's install from PPA (currently supported: **14.04**, **16.04**, **17.10** & **18.04**):
+Let's install from PPA (currently supported: **14.04**, **17.10** & **18.04**; we're struggling with Ubuntu 16.04 right now):
 
 ```
 sudo add-apt-repository ppa:maateen/battery-monitor -y
