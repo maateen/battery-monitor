@@ -233,4 +233,4 @@ He is our official package maintainer in AUR. He has put Arch users' life at eas
 
 ### [Benjamin Staffin](https://github.com/benley)
 
-Improved the build process and added modern Python setuptools packaging.
+He has improved the build process and added modern Python setuptools packaging. Please take a minute to thank him.
