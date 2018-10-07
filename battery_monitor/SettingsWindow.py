@@ -10,9 +10,9 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 # imports from current project
-from .config import CONFIG_FILE
-from .config import ICONS
-from .ErrorLib import ValidationError
+from config import CONFIG_FILE
+from config import ICONS
+from ErrorLib import ValidationError
 
 
 
@@ -59,10 +59,18 @@ class SettingsWindow(Gtk.Window):
         label4.set_justify(Gtk.Justification.LEFT)
         label4.set_halign(Gtk.Align.START)
         label4.set_hexpand(True)
-        label5 = Gtk.Label('Notification Stability Time')
+        label7 = Gtk.Label('Notification Stability Time')
+        label7.set_justify(Gtk.Justification.LEFT)
+        label7.set_halign(Gtk.Align.START)
+        label7.set_hexpand(True)
+        label5 = Gtk.Label('First Charging Warning at')
         label5.set_justify(Gtk.Justification.LEFT)
         label5.set_halign(Gtk.Align.START)
         label5.set_hexpand(True)
+        label6 = Gtk.Label('Second Charging Warning at')
+        label6.set_justify(Gtk.Justification.LEFT)
+        label6.set_halign(Gtk.Align.START)
+        label6.set_hexpand(True)
 
         self.entry0 = Gtk.Entry()
         self.entry0.set_text(str(self.critical_battery))
@@ -80,8 +88,14 @@ class SettingsWindow(Gtk.Window):
         self.entry4.set_text(str(self.first_custom_warning))
         self.entry4.set_tooltip_text('Set in percentage, must be greater than Second Custom Warning')
         self.entry5 = Gtk.Entry()
-        self.entry5.set_text(str(self.notification_stability))
-        self.entry5.set_tooltip_text('Set in second')
+        self.entry5.set_text(str(self.first_charging_warning))
+        self.entry5.set_tooltip_text('Set in percentage, must be smaller than Other Charging Warnings')
+        self.entry6 = Gtk.Entry()
+        self.entry6.set_text(str(self.second_charging_warning))
+        self.entry6.set_tooltip_text('Set in percentage, must be greater than First Charging Warning')
+        self.entry7 = Gtk.Entry()
+        self.entry7.set_text(str(self.notification_stability))
+        self.entry7.set_tooltip_text('Set in second')
 
         save_button = Gtk.Button(label='Save')
         save_button.connect('clicked', self.__save_config)
@@ -105,7 +119,11 @@ class SettingsWindow(Gtk.Window):
         grid.attach(self.entry4, 14, 4, 1, 1)
         grid.attach(label5, 0, 5, 14, 1)
         grid.attach(self.entry5, 14, 5, 1, 1)
-        grid.attach(save_button, 9, 7, 1, 1)
+        grid.attach(label6, 0, 6, 14, 1)
+        grid.attach(self.entry6, 14, 6, 1, 1)
+        grid.attach(label7, 0, 7, 14, 1)
+        grid.attach(self.entry7, 14, 7, 1, 1)
+        grid.attach(save_button, 9, 8, 1, 1)
 
         return grid
 
@@ -122,6 +140,8 @@ class SettingsWindow(Gtk.Window):
             self.first_custom_warning = self.config['settings']['first_custom_warning']
             self.second_custom_warning = self.config['settings']['second_custom_warning']
             self.third_custom_warning = self.config['settings']['third_custom_warning']
+            self.first_charging_warning = self.config['settings']['first_charging_warning']
+            self.second_charging_warning = self.config['settings']['second_charging_warning']
             self.notification_stability = self.config['settings']['notification_stability']
         except:
             print('Config file is missing or not readable. Using default configurations.')
@@ -130,6 +150,8 @@ class SettingsWindow(Gtk.Window):
             self.first_custom_warning = ''
             self.second_custom_warning = ''
             self.third_custom_warning = ''
+            self.first_charging_warning = ''
+            self.second_charging_warning = ''
             self.notification_stability = '5'
 
     def __save_config(self, widget):
@@ -149,7 +171,9 @@ class SettingsWindow(Gtk.Window):
             'third_custom_warning': self.entry2.get_text(),
             'second_custom_warning': self.entry3.get_text(),
             'first_custom_warning': self.entry4.get_text(),
-            'notification_stability': self.entry5.get_text()
+            'first_charging_warning': self.entry5.get_text(),
+            'second_charging_warning': self.entry6.get_text(),
+            'notification_stability': self.entry7.get_text()
         }
 
         try:
@@ -191,7 +215,11 @@ class SettingsWindow(Gtk.Window):
 
         if bool(config['second_custom_warning']) and bool(config['first_custom_warning']):
             if int(config['second_custom_warning']) >= int(config['first_custom_warning']):
-                raise ValidationError('The value of first custom warning must be greater than then value of second custom warning.')
+                raise ValidationError('The value of first custom warning must be greater than the value of second custom warning.')
+
+        if bool(config['second_charging_warning']) and bool(config['first_charging_warning']):
+            if int(config['second_charging_warning']) <= int(config['first_charging_warning']):
+                raise ValidationError('The value of first charging warning must be smaller than the value of second charging warning.')
 
         if bool(config['notification_stability']):
             if int(config['notification_stability']) <= 0:
