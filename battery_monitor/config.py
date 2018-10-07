@@ -24,6 +24,8 @@ ICONS = {
     "first_custom_warning": "discharging.png",
     "second_custom_warning": "discharging.png",
     "third_custom_warning": "discharging.png",
+    "first_charging_warning": "charging.png",
+    "second_charging_warning": "charging.png"
 }
 
 for key in ICONS:
@@ -87,6 +89,16 @@ MESSAGES = {
 
     "third_custom_warning": (
         u"Third Custom Warning",
+        u"Now {battery_percentage} %, {remaining_time}"
+    ),
+
+    "first_charging_warning": (
+        u"First Charging Warning",
+        u"Now {battery_percentage} %, {remaining_time}"
+    ),
+
+    "second_charging_warning": (
+        u"Second Charging Warning",
         u"Now {battery_percentage} %, {remaining_time}"
     ),
 }
