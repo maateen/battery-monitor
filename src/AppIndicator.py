@@ -3,6 +3,7 @@
 # standard library
 import subprocess
 import time
+import configparser
 from threading import Thread
 
 # third-party library
@@ -15,6 +16,8 @@ from gi.repository import Gtk
 # imports from current project
 from config import APPINDICATOR_ID
 from config import ICONS
+from config import APP_ICON_NAMES
+from config import CONFIG_FILE
 from AboutWindow import AboutWindow
 from BatteryMonitor import BatteryMonitor
 from Notification import Notification
@@ -29,7 +32,8 @@ class AppIndicator:
     TEST_MODE: bool
 
     def __init__(self, TEST_MODE: bool = False):
-        self.indicator = AppIndicator3.Indicator.new(APPINDICATOR_ID, ICONS['app'], AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
+        icon_path = self.__get_icon_path();
+        self.indicator = AppIndicator3.Indicator.new(APPINDICATOR_ID, icon_path, AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
         self.indicator.set_title('Battery Monitor')
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
@@ -40,6 +44,21 @@ class AppIndicator:
         self.daemon = Thread(target=self.__run_daemon, args=(TEST_MODE,))
         self.daemon.setDaemon(True)
         self.daemon.start()
+
+    def __get_icon_path(self):
+        self.config = configparser.ConfigParser()
+        try:
+            self.config.read(CONFIG_FILE)
+            icon_name = self.config['settings']['icon']
+        except:
+            print('Config file is missing or not readable. Using default icon.')
+            icon_name = APP_ICON_NAMES[0]
+
+        for icon_path in ICONS['app']:
+            if icon_name.replace(" ", "-").lower() in icon_path:
+                return icon_path
+        print('App Icon specified in config file isn\'t valid. Using default icon.')
+        return ICONS['app'][0]
 
     def __about_window(self, *args):
         about_window = AboutWindow()
