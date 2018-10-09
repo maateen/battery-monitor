@@ -121,7 +121,7 @@ class SettingsWindow(Gtk.Window):
         grid.attach(self.entry5, 14, 5, 1, 1)
         grid.attach(label6, 0, 6, 14, 1)
         grid.attach(self.entry6, 14, 6, 1, 1)
-        grid.attach(label7, 0, 7, 1, 1)
+        grid.attach(label7, 0, 7, 14, 1)
         grid.attach(self.entry7, 14, 7, 1, 1)
         grid.attach(save_button, 9, 8, 1, 1)
 
