@@ -46,6 +46,7 @@ class AppIndicator:
         self.daemon.start()
 
     def __get_icon_path(self):
+        #select icon path based on icon specified in config file
         self.config = configparser.ConfigParser()
         try:
             self.config.read(CONFIG_FILE)
