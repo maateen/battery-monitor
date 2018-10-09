@@ -12,6 +12,7 @@ from gi.repository import Gtk
 # imports from current project
 from config import CONFIG_FILE
 from config import ICONS
+from config import APP_ICON_NAMES
 from ErrorLib import ValidationError
 
 
@@ -29,7 +30,7 @@ class SettingsWindow(Gtk.Window):
         self.set_border_width(0)
         self.get_focus()
         self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_default_icon_from_file(ICONS['app'])
+        self.set_default_icon_from_file(ICONS['app'][0])
         self.config_dir = os.path.dirname(CONFIG_FILE)
         self.config = configparser.ConfigParser()
         self.__load_config()
@@ -63,6 +64,10 @@ class SettingsWindow(Gtk.Window):
         label5.set_justify(Gtk.Justification.LEFT)
         label5.set_halign(Gtk.Align.START)
         label5.set_hexpand(True)
+        label6 = Gtk.Label('Icon')
+        label6.set_justify(Gtk.Justification.LEFT)
+        label6.set_halign(Gtk.Align.START)
+        label6.set_hexpand(True)
 
         self.entry0 = Gtk.Entry()
         self.entry0.set_text(str(self.critical_battery))
@@ -83,6 +88,20 @@ class SettingsWindow(Gtk.Window):
         self.entry5.set_text(str(self.notification_stability))
         self.entry5.set_tooltip_text('Set in second')
 
+        icon_store = Gtk.ListStore(str)
+        
+        for icon in APP_ICON_NAMES:
+            icon_store.append([icon])
+
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        self.icon_combo = Gtk.ComboBox.new_with_model(icon_store)
+        
+        renderer_text = Gtk.CellRendererText()
+        self.icon_combo.pack_start(renderer_text, True)
+        self.icon_combo.add_attribute(renderer_text, "text", 0)
+        self.icon_combo.set_active(APP_ICON_NAMES.index(self.icon))
+        vbox.pack_start(self.icon_combo, False, False, True)
+        
         save_button = Gtk.Button(label='Save')
         save_button.connect('clicked', self.__save_config)
 
@@ -105,6 +124,8 @@ class SettingsWindow(Gtk.Window):
         grid.attach(self.entry4, 14, 4, 1, 1)
         grid.attach(label5, 0, 5, 14, 1)
         grid.attach(self.entry5, 14, 5, 1, 1)
+        grid.attach(label6, 0, 6, 14, 1)
+        grid.attach(vbox, 14, 6, 1, 1)
         grid.attach(save_button, 9, 7, 1, 1)
 
         return grid
@@ -123,6 +144,7 @@ class SettingsWindow(Gtk.Window):
             self.second_custom_warning = self.config['settings']['second_custom_warning']
             self.third_custom_warning = self.config['settings']['third_custom_warning']
             self.notification_stability = self.config['settings']['notification_stability']
+            self.icon = self.config['settings']['icon']
         except:
             print('Config file is missing or not readable. Using default configurations.')
             self.critical_battery = '10'
@@ -131,6 +153,7 @@ class SettingsWindow(Gtk.Window):
             self.second_custom_warning = ''
             self.third_custom_warning = ''
             self.notification_stability = '5'
+            self.icon = 'Colored Icon'
 
     def __save_config(self, widget):
         """Saves configurations to config file.
@@ -149,7 +172,8 @@ class SettingsWindow(Gtk.Window):
             'third_custom_warning': self.entry2.get_text(),
             'second_custom_warning': self.entry3.get_text(),
             'first_custom_warning': self.entry4.get_text(),
-            'notification_stability': self.entry5.get_text()
+            'notification_stability': self.entry5.get_text(),
+            'icon': APP_ICON_NAMES[self.icon_combo.get_active()]
         }
 
         try:
@@ -191,10 +215,13 @@ class SettingsWindow(Gtk.Window):
 
         if bool(config['second_custom_warning']) and bool(config['first_custom_warning']):
             if int(config['second_custom_warning']) >= int(config['first_custom_warning']):
-                raise ValidationError('The value of first custom warning must be greater than then value of second custom warning.')
+                raise ValidationError('The value of first custom warning must be greater than the value of second custom warning.')
 
         if bool(config['notification_stability']):
             if int(config['notification_stability']) <= 0:
                 raise ValidationError('Notification stability time must be greater than zero.')
         else:
             raise ValidationError('Notification stability time can not be empty.')
+            
+        if(os.path.isfile("/usr/share/battery-monitor/icons/" + config['icon'].replace(" ", "-").lower() + ".png") != True):
+            raise ValidationError("The icon you selected is not available. Please choose another icon.")
