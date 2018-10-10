@@ -13,7 +13,7 @@ from gi.repository import Gtk
 from config import CONFIG_FILE
 from config import ICONS
 from config import APP_ICON_NAMES
-from ErrorLib import ValidationError
+from UserConfig import UserConfig
 
 
 
@@ -33,7 +33,7 @@ class SettingsWindow(Gtk.Window):
         self.set_default_icon_from_file(ICONS['app'][0])
         self.config_dir = os.path.dirname(CONFIG_FILE)
         self.config = configparser.ConfigParser()
-        self.__load_config()
+        self.user_config = UserConfig.load_config()
 
         self.notebook = Gtk.Notebook()
         self.add(self.notebook)
@@ -70,22 +70,22 @@ class SettingsWindow(Gtk.Window):
         label6.set_hexpand(True)
 
         self.entry0 = Gtk.Entry()
-        self.entry0.set_text(str(self.critical_battery))
+        self.entry0.set_text(str(self.user_config['critical_battery']))
         self.entry0.set_tooltip_text('Set in percentage')
         self.entry1 = Gtk.Entry()
-        self.entry1.set_text(str(self.low_battery))
+        self.entry1.set_text(str(self.user_config['low_battery']))
         self.entry1.set_tooltip_text('Set in percentage')
         self.entry2 = Gtk.Entry()
-        self.entry2.set_text(str(self.third_custom_warning))
+        self.entry2.set_text(str(self.user_config['third_custom_warning']))
         self.entry2.set_tooltip_text('Set in percentage, must be smaller than Other Warnings')
         self.entry3 = Gtk.Entry()
-        self.entry3.set_text(str(self.second_custom_warning))
+        self.entry3.set_text(str(self.user_config['second_custom_warning']))
         self.entry3.set_tooltip_text('Set in percentage, , must be greater than Third Custom Warning')
         self.entry4 = Gtk.Entry()
-        self.entry4.set_text(str(self.first_custom_warning))
+        self.entry4.set_text(str(self.user_config['first_custom_warning']))
         self.entry4.set_tooltip_text('Set in percentage, must be greater than Second Custom Warning')
         self.entry5 = Gtk.Entry()
-        self.entry5.set_text(str(self.notification_stability))
+        self.entry5.set_text(str(self.user_config['notification_stability']))
         self.entry5.set_tooltip_text('Set in second')
 
         icon_store = Gtk.ListStore(str)
@@ -99,7 +99,7 @@ class SettingsWindow(Gtk.Window):
         renderer_text = Gtk.CellRendererText()
         self.icon_combo.pack_start(renderer_text, True)
         self.icon_combo.add_attribute(renderer_text, "text", 0)
-        self.icon_combo.set_active(APP_ICON_NAMES.index(self.icon))
+        self.icon_combo.set_active(APP_ICON_NAMES.index(self.user_config['icon']))
         vbox.pack_start(self.icon_combo, False, False, True)
         
         save_button = Gtk.Button(label='Save')
@@ -130,98 +130,19 @@ class SettingsWindow(Gtk.Window):
 
         return grid
 
-    def __load_config(self):
-        """Loads configurations from config file.
-
-        Tries to read and parse from config file. If the config file is missing or not readable, then it triggers default configurations.
-        """
-
-        try:
-            self.config.read(CONFIG_FILE)
-            self.critical_battery = self.config['settings']['critical_battery']
-            self.low_battery = self.config['settings']['low_battery']
-            self.first_custom_warning = self.config['settings']['first_custom_warning']
-            self.second_custom_warning = self.config['settings']['second_custom_warning']
-            self.third_custom_warning = self.config['settings']['third_custom_warning']
-            self.notification_stability = self.config['settings']['notification_stability']
-            self.icon = self.config['settings']['icon']
-        except:
-            print('Config file is missing or not readable. Using default configurations.')
-            self.critical_battery = '10'
-            self.low_battery = '30'
-            self.first_custom_warning = ''
-            self.second_custom_warning = ''
-            self.third_custom_warning = ''
-            self.notification_stability = '5'
-            self.icon = 'Colored Icon'
-
     def __save_config(self, widget):
-        """Saves configurations to config file.
-
-        Saves user-defined configurations to config file. If the config file does not exist, it creates a new config file (~/.config/battery-monitor/battery-monitor.cfg) in user's home directory.
+        """ Writes all field into a dictionary and calls save_config() in UserConfig to save to file
         """
-
-        if os.path.exists(self.config_dir):
-            pass
-        else:
-            os.makedirs(self.config_dir)
-
-        self.config['settings'] = {
-            'critical_battery': self.entry0.get_text(),
-            'low_battery': self.entry1.get_text(),
-            'third_custom_warning': self.entry2.get_text(),
-            'second_custom_warning': self.entry3.get_text(),
-            'first_custom_warning': self.entry4.get_text(),
-            'notification_stability': self.entry5.get_text(),
-            'icon': APP_ICON_NAMES[self.icon_combo.get_active()]
-        }
-
         try:
-            self.__validate_config(self.config['settings'])
-            with open(CONFIG_FILE, 'w') as f:
-                self.config.write(f)
-                dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, 'Successfully Saved!')
-                dialog.format_secondary_text(
-                    'You settings have been saved successfully.')
-                response = dialog.run()
-                if response == Gtk.ResponseType.OK:
-                    self.close()
-                dialog.destroy()
-        except ValidationError as message:
-            dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.CANCEL, 'Validation Error!')
-            dialog.format_secondary_text(str(message))
-            dialog.run()
-            dialog.destroy()
-
-    def __validate_config(self, config):
-        """validates config before saving to config file."""
-
-        if bool(config['critical_battery']) and bool(config['low_battery']):
-            if int(config['critical_battery']) >= int(config['low_battery']):
-                raise ValidationError('The value of low battery warning must be greater than the value of critical battery warning.')
-        else:
-            if bool(config['critical_battery']):
-                raise ValidationError('Low battery warning can not be empty.')
-            else:
-                raise ValidationError('Critical battery warning can not be empty.')
-
-        if bool(config['low_battery']) and bool(config['third_custom_warning']):
-            if int(config['low_battery']) >= int(config['third_custom_warning']):
-                raise ValidationError('The value of third custom warning must be greater than the value of low battery warning.')
-
-        if bool(config['third_custom_warning']) and bool(config['second_custom_warning']):
-            if int(config['third_custom_warning']) >= int(config['second_custom_warning']):
-                raise ValidationError('The value of second custom warning must be greater than the value 0f third custom warning.')
-
-        if bool(config['second_custom_warning']) and bool(config['first_custom_warning']):
-            if int(config['second_custom_warning']) >= int(config['first_custom_warning']):
-                raise ValidationError('The value of first custom warning must be greater than the value of second custom warning.')
-
-        if bool(config['notification_stability']):
-            if int(config['notification_stability']) <= 0:
-                raise ValidationError('Notification stability time must be greater than zero.')
-        else:
-            raise ValidationError('Notification stability time can not be empty.')
-            
-        if(os.path.isfile("/usr/share/battery-monitor/icons/" + config['icon'].replace(" ", "-").lower() + ".png") != True):
-            raise ValidationError("The icon you selected is not available. Please choose another icon.")
+            user_config = {
+                'critical_battery': int(self.entry0.get_text()),
+                'low_battery': int(self.entry1.get_text()),
+                'third_custom_warning': int(self.entry2.get_text()),
+                'second_custom_warning': int(self.entry3.get_text()),
+                'first_custom_warning': int(self.entry4.get_text()),
+                'notification_stability': int(self.entry5.get_text()),
+                'icon': APP_ICON_NAMES[self.icon_combo.get_active()]
+            }
+            UserConfig.save(user_config, self)
+        except ValueError:
+            UserConfig.show_validation_error_dialog('One or multiple fields contain values, which aren\'t valid', self)

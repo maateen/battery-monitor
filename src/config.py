@@ -6,16 +6,16 @@ import os
 _path = os.path.dirname(os.path.abspath(__file__))
 _icon_path = _path + '/icons/'
 
-APP_ICON_NAMES = ["Colored Icon", "Light Icon", "Dark Icon"]
+APP_ICON_NAMES = ["Default Icon", "Light Icon", "Dark Icon"]
 
 APPINDICATOR_ID = 'batterymonitor'
 
 CONFIG_FILE = os.path.expanduser('~/.config/battery-monitor/battery-monitor.cfg')
 
 ICONS = {
-    "success": "colored-icon.png",
-    "fail": "colored-icon.png",
-    "acpi": "colored-icon.png",
+    "success": "default-icon.png",
+    "fail": "default-icon.png",
+    "acpi": "default-icon.png",
     "charging": "charging.png",
     "discharging": "discharging.png",
     "full":  "full-charge.png",
@@ -28,12 +28,12 @@ ICONS = {
 }
 
 for key in ICONS:
-	ICONS[key] = _icon_path + ICONS[key]
+    ICONS[key] = _icon_path + ICONS[key]
 
 ICONS["app"] = []
 
 for icon_index in range(len(APP_ICON_NAMES)):
-	ICONS["app"].append(_icon_path + APP_ICON_NAMES[icon_index].replace(" ", "-").lower() + ".png")
+    ICONS["app"].append(_icon_path + APP_ICON_NAMES[icon_index].replace(" ", "-").lower() + ".png")
 
 MESSAGES = {
     "success": (
