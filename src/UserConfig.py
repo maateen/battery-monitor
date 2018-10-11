@@ -13,7 +13,7 @@ from gi.repository import Gtk
 from ErrorLib import ValidationError
 from config import APP_ICON_NAMES
 from config import CONFIG_FILE
-
+from config import ICON_PATH
 
 class UserConfig:
 
@@ -67,6 +67,7 @@ class UserConfig:
             UserConfig.validate(user_config)
         except ValidationError as message:
             UserConfig.show_validation_error_dialog(message, settings_window)
+            return
 
         config['settings'] = user_config
         with open(CONFIG_FILE, 'w') as f:
@@ -124,5 +125,5 @@ class UserConfig:
         else:
             raise ValidationError('Notification stability time can not be empty.')
 
-        if os.path.isfile('/usr/share/battery-monitor/icons/' + user_config['icon'].replace(' ', '-').lower() + '.png') is not True:
+        if os.path.isfile(ICON_PATH + user_config['icon'].replace(' ', '-').lower() + '.png') is not True:
             raise ValidationError('The icon you selected is not available. Please choose another icon.')

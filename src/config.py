@@ -4,7 +4,7 @@
 import os
 
 _path = os.path.dirname(os.path.abspath(__file__))
-_icon_path = _path + '/icons/'
+ICON_PATH = _path + '/icons/'
 
 APP_ICON_NAMES = ["Default Icon", "Light Icon", "Dark Icon"]
 
@@ -28,12 +28,12 @@ ICONS = {
 }
 
 for key in ICONS:
-    ICONS[key] = _icon_path + ICONS[key]
+    ICONS[key] = ICON_PATH + ICONS[key]
 
 ICONS["app"] = []
 
 for icon_index in range(len(APP_ICON_NAMES)):
-    ICONS["app"].append(_icon_path + APP_ICON_NAMES[icon_index].replace(" ", "-").lower() + ".png")
+    ICONS["app"].append(ICON_PATH + APP_ICON_NAMES[icon_index].replace(" ", "-").lower() + ".png")
 
 MESSAGES = {
     "success": (
