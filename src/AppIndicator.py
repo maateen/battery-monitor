@@ -19,6 +19,7 @@ from AboutWindow import AboutWindow
 from BatteryMonitor import BatteryMonitor
 from Notification import Notification
 from SettingsWindow import SettingsWindow
+from UserConfig import UserConfig
 
 class AppIndicator:
     """Class for system tray icon.
@@ -29,7 +30,8 @@ class AppIndicator:
     TEST_MODE: bool
 
     def __init__(self, TEST_MODE: bool = False):
-        self.indicator = AppIndicator3.Indicator.new(APPINDICATOR_ID, ICONS['app'], AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
+        icon_path = self.__get_icon_path()
+        self.indicator = AppIndicator3.Indicator.new(APPINDICATOR_ID, icon_path, AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
         self.indicator.set_title('Battery Monitor')
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
@@ -40,6 +42,15 @@ class AppIndicator:
         self.daemon = Thread(target=self.__run_daemon, args=(TEST_MODE,))
         self.daemon.setDaemon(True)
         self.daemon.start()
+
+    def __get_icon_path(self):
+        #select icon path based on icon specified in config file
+
+        icon_name = UserConfig.load_config()['icon']
+
+        for icon_path in ICONS['app']:
+            if icon_name.replace(" ", "-").lower() in icon_path:
+                return icon_path
 
     def __about_window(self, *args):
         about_window = AboutWindow()

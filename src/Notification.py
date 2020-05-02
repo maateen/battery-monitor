@@ -2,7 +2,6 @@
 
 # standard library
 import configparser
-import os
 import time
 
 # third-party library
@@ -16,6 +15,7 @@ from BatteryMonitor import BatteryMonitor
 from config import CONFIG_FILE
 from config import ICONS
 from config import MESSAGES
+from UserConfig import UserConfig
 
 
 
@@ -46,7 +46,7 @@ class Notification:
             # fixing GLib.GError: g-dbus-error-quark blindly
             pass
         self.config = configparser.ConfigParser()
-        self.load_config()
+        self.user_config = UserConfig.load_config()
 
     def load_config(self):
         try:
@@ -99,7 +99,7 @@ class Notification:
             # fixing GLib.GError: g-dbus-error-quark blindly
             # To Do: investigate the main reason and make a fix
             pass
-        time.sleep(self.notification_stability)
+        time.sleep(self.user_config['notification_stability'])
         self.notifier.close()
 
     def show_specific_notifications(self, monitor: BatteryMonitor):
@@ -114,9 +114,9 @@ class Notification:
 
         if state == 'discharging':
             if (percentage != self.last_percentage and
-                remaining != "discharging at zero rate - will never fully discharge"):
+                    remaining != "discharging at zero rate - will never fully discharge"):
                 self.last_percentage = percentage
-                if percentage <= self.critical_battery:
+                if percentage <= self.user_config['critical_battery']:
                     self.last_notification = "critical_battery"
                     self.show_notification(type="critical_battery",
                                            battery_percentage=percentage,
@@ -124,7 +124,7 @@ class Notification:
 
                     return "critical_battery"
 
-                elif (percentage <= self.low_battery and
+                elif (percentage <= self.user_config['low_battery'] and
                       self.last_notification != "low_battery"):
                     self.last_notification = "low_battery"
                     self.show_notification(type="low_battery",
@@ -133,7 +133,7 @@ class Notification:
 
                     return "low_battery"
 
-                elif (percentage <= self.third_custom_warning and
+                elif (percentage <= self.user_config['third_custom_warning'] and
                       self.last_notification != "third_custom_warning"):
                     self.last_notification = "third_custom_warning"
                     self.show_notification(type="third_custom_warning",
@@ -142,7 +142,7 @@ class Notification:
 
                     return "third_custom_warning"
 
-                elif (percentage <= self.second_custom_warning and
+                elif (percentage <= self.user_config['second_custom_warning'] and
                       self.last_notification != "second_custom_warning"):
                     self.last_notification = "second_custom_warning"
                     self.show_notification(type="second_custom_warning",
@@ -151,7 +151,7 @@ class Notification:
 
                     return "second_custom_warning"
 
-                elif (percentage <= self.first_custom_warning and
+                elif (percentage <= self.user_config['first_custom_warning'] and
                       self.last_notification != "first_custom_warning"):
                     self.last_notification = "first_custom_warning"
                     self.show_notification(type="first_custom_warning",
@@ -160,7 +160,8 @@ class Notification:
 
                     return "first_custom_warning"
         else:
-            if state != self.last_notification and remaining != "discharging at zero rate - will never fully discharge":
+            if (state != self.last_notification and
+                    remaining != "discharging at zero rate - will never fully discharge"):
                 self.last_notification = state
                 self.show_notification(type=state,
                                        battery_percentage=percentage,
