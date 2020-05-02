@@ -24,6 +24,7 @@ ICONS = {
     "first_custom_warning": "discharging.png",
     "second_custom_warning": "discharging.png",
     "third_custom_warning": "discharging.png",
+    "upper_threshold_warning": "charging.png",
 }
 
 for key in ICONS:
@@ -87,6 +88,10 @@ MESSAGES = {
 
     "third_custom_warning": (
         u"Third Custom Warning",
+        u"Now {battery_percentage} %, {remaining_time}"
+    ),
+    "upper_threshold_warning": (
+        u"Upper Threshold Warning - Unplug your Charger",
         u"Now {battery_percentage} %, {remaining_time}"
     ),
 }

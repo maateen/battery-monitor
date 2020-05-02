@@ -75,6 +75,10 @@ class Notification:
                 self.notification_stability = int(self.config['settings']['notification_stability'])
             except ValueError:
                 self.notification_stability = 5
+            try:
+                self.upper_threshold_warning = int(self.config['settings']['upper_threshold_warning'])
+            except ValueError:
+                self.upper_threshold_warning = 90
         except:
             print('Config file is missing or not readable. Using default configurations.')
             self.critical_battery = 10
@@ -83,6 +87,7 @@ class Notification:
             self.second_custom_warning = -2
             self.third_custom_warning = -3
             self.notification_stability = 5
+            self.upper_threshold_warning = 90
 
     def show_notification(self, type: str, battery_percentage: int,
                           remaining_time: str = None, _time: int = 5) -> None:
@@ -159,7 +164,23 @@ class Notification:
                                            remaining_time=remaining)
 
                     return "first_custom_warning"
+
+        elif state == 'charging':
+            if (percentage != self.last_percentage and
+                remaining != "discharging at zero rate - will never fully discharge" and
+                self.last_notification!="upper_threshold_warning"):
+                    self.last_percentage = percentage
+                    self.last_notification!="upper_threshold_warning"
+                    self.show_notification(type="upper_threshold_warning",
+                                           battery_percentage=percentage,
+                                           remaining_time=remaining)
+
+                    return "upper_threshold_warning"
+        
         else:
+            """
+                if last notification = charging, so is charging now than, the preceding block will not work.
+            """
             if state != self.last_notification and remaining != "discharging at zero rate - will never fully discharge":
                 self.last_notification = state
                 self.show_notification(type=state,

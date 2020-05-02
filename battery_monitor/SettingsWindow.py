@@ -64,6 +64,11 @@ class SettingsWindow(Gtk.Window):
         label5.set_halign(Gtk.Align.START)
         label5.set_hexpand(True)
 
+        label6 = Gtk.Label('Upper Threshold Warning at')
+        label6.set_justify(Gtk.Justification.LEFT)
+        label6.set_halign(Gtk.Align.START)
+        label6.set_hexpand(True)
+
         self.entry0 = Gtk.Entry()
         self.entry0.set_text(str(self.critical_battery))
         self.entry0.set_tooltip_text('Set in percentage')
@@ -82,6 +87,10 @@ class SettingsWindow(Gtk.Window):
         self.entry5 = Gtk.Entry()
         self.entry5.set_text(str(self.notification_stability))
         self.entry5.set_tooltip_text('Set in second')
+
+        self.entry6 = Gtk.Entry()
+        self.entry6.set_text(str(self.upper_threshold_warning))
+        self.entry6.set_tooltip_text('Set in percentage')
 
         save_button = Gtk.Button(label='Save')
         save_button.connect('clicked', self.__save_config)
@@ -105,6 +114,8 @@ class SettingsWindow(Gtk.Window):
         grid.attach(self.entry4, 14, 4, 1, 1)
         grid.attach(label5, 0, 5, 14, 1)
         grid.attach(self.entry5, 14, 5, 1, 1)
+        grid.attach(label6, 0, 6, 14, 1)
+        grid.attach(self.entry6, 14, 6, 1, 1)
         grid.attach(save_button, 9, 7, 1, 1)
 
         return grid
@@ -123,6 +134,7 @@ class SettingsWindow(Gtk.Window):
             self.second_custom_warning = self.config['settings']['second_custom_warning']
             self.third_custom_warning = self.config['settings']['third_custom_warning']
             self.notification_stability = self.config['settings']['notification_stability']
+            self.upper_threshold_warning = self.config['settings']['upper_threshold_warning']
         except:
             print('Config file is missing or not readable. Using default configurations.')
             self.critical_battery = '10'
@@ -131,6 +143,7 @@ class SettingsWindow(Gtk.Window):
             self.second_custom_warning = ''
             self.third_custom_warning = ''
             self.notification_stability = '5'
+            self.upper_threshold_warning = '90'
 
     def __save_config(self, widget):
         """Saves configurations to config file.
@@ -149,7 +162,8 @@ class SettingsWindow(Gtk.Window):
             'third_custom_warning': self.entry2.get_text(),
             'second_custom_warning': self.entry3.get_text(),
             'first_custom_warning': self.entry4.get_text(),
-            'notification_stability': self.entry5.get_text()
+            'notification_stability': self.entry5.get_text(),
+            'upper_threshold_warning': self.entry6.get_text()
         }
 
         try:
@@ -198,3 +212,7 @@ class SettingsWindow(Gtk.Window):
                 raise ValidationError('Notification stability time must be greater than zero.')
         else:
             raise ValidationError('Notification stability time can not be empty.')
+
+        if bool(config['upper_threshold_warning']):
+            if int(config['upper_threshold_warning']) <= 0:
+                raise ValidationError('Upper threshold Warning must be greater than zero.')
