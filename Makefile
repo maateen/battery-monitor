@@ -17,8 +17,8 @@ all: install
 install: battery-monitor.desktop battery-monitor-autostart.desktop
 	@echo You must be root to install.
 	python setup.py install --prefix=$(DESTDIR)$(PREFIX)
-	install -Dm755 battery-monitor-autostart.desktop $(DESTDIR)/etc/xdg/autostart/battery-monitor-autostart.desktop
-	install -Dm755 battery-monitor.desktop $(DESTDIR)$(PREFIX)/share/applications/battery-monitor.desktop
+	install -Dm644 battery-monitor-autostart.desktop $(DESTDIR)/etc/xdg/autostart/battery-monitor-autostart.desktop
+	install -Dm644 battery-monitor.desktop $(DESTDIR)$(PREFIX)/share/applications/battery-monitor.desktop
 	install -Dm644 battery_monitor/icons/icon.png $(DESTDIR)$(PREFIX)/share/pixmaps/battery-monitor.png
 	@echo Installation completed!
 
