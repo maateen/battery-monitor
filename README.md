@@ -1,6 +1,9 @@
 
 # Battery Monitor [Deprecated]
 
+| :warning:        | We took some initiatives to revamp the project but we couldn't gather enough contributor to move the project forward. So, we are backing off finally. As it is licensed under [GPL-3.0](https://github.com/maateen/battery-monitor/blob/master/LICENSE), please feel free to fork it and start on you own. |
+|---------------|:------------------------|
+
 Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify the user about charging, discharging, not charging and critically low battery state of the battery on Linux (surely if the battery is present).
 
  - [Dependencies](#dependencies)
@@ -10,6 +13,7 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
      - [For Arch Linux and its derivatives](#for-arch-linux-and-its-derivatives)
      - [For Beta Testers](#for-beta-testers)
      - [For Developers](#for-developers)
+ - [Uninstall Daily Build](#uninstall-daily-build)
  - [User Manual](#user-manual)
      - [Auto Start](#auto-start)
      - [Settings](#settings)
@@ -23,6 +27,17 @@ Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notif
  - [Roadmap](#roadmap)
  - [Changelog](#changelog)
  - [Contributors](#contributors)
+ 
+## Uninstall Daily Build
+
+```shell
+$ sudo systemctl stop battery-monitor
+$ sudo systemctl disable battery-monitor
+$ sudo rm -f /usr/local/bin/battery-monitor
+$ sudo rm -rf /etc/battery-monitor
+$ sudo rm -f /etc/systemd/system/battery-monitor.service
+$ sudo systemctl daemon-reload
+```
 
 ## Dependencies
 
