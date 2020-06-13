@@ -1,7 +1,7 @@
 
 # Battery Monitor [Deprecated]
 
-| :warning:        | We took some initiatives to revamp the project but we couldn't gather enough contributor to move the project forward. So, we are backing off finally. As it is licensed under [GPL-3.0](https://github.com/maateen/battery-monitor/blob/master/LICENSE), please feel free to fork it and start on you own. |
+| :warning:        | We took some initiatives to revamp the project but we couldn't gather enough contributor to move the project forward. So, we are backing off finally. As it is licensed under [GPL-3.0](https://github.com/maateen/battery-monitor/blob/master/LICENSE), please feel free to fork it and start on you own. To uninstall the daily build, please follow [this](https://github.com/maateen/battery-monitor#uninstall-daily-build). |
 |---------------|:------------------------|
 
 Battery Monitor is a utility tool developed on Python3 and PyGtk3. It will notify the user about charging, discharging, not charging and critically low battery state of the battery on Linux (surely if the battery is present).
